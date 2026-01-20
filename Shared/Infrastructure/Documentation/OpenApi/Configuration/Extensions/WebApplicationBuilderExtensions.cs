@@ -6,7 +6,6 @@ public static class WebApplicationBuilderExtensions
 {
     public static void AddOpenApiDocumentationServices(this WebApplicationBuilder builder)
     {
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
@@ -14,14 +13,13 @@ public static class WebApplicationBuilderExtensions
             options.SwaggerDoc("v1",
                 new OpenApiInfo
                 {
-                    Title = "ACME.LearningCenterPlatform.API",
+                    Title = "Dermakardex Backend API",
                     Version = "v1",
-                    Description = "ACME Learning Center Platform API",
-                    TermsOfService = new Uri("https://acme-learning.com/tos"),
+                    Description = "Kardex for dermatology clinics",
                     Contact = new OpenApiContact
                     {
-                        Name = "ACME Studios",
-                        Email = "contact@acme.com"
+                        Name = "Carlos Sanchez",
+                        Email = "carlos_Sm90@outlook.com"
                     },
                     License = new OpenApiLicense
                     {
