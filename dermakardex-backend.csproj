@@ -21,4 +21,24 @@
         <PackageReference Include="Cortex.Mediator" Version="2.1.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="Shared\.DS_Store" />
+      <Content Include="Shared\Application\.DS_Store" />
+      <Content Include="Shared\Application\Internal\.DS_Store" />
+      <Content Include="Shared\Infrastructure\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Documentation\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Documentation\OpenApi\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Documentation\OpenApi\Configuration\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Interfaces\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Interfaces\ASP\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Interfaces\ASP\Configuration\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Mediator\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Mediator\Cortex\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Mediator\Cortex\Configuration\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Mediator\Cortex\Configuration\Extensions\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Persistence\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Persistence\EFC\.DS_Store" />
+      <Content Include="Shared\Infrastructure\Persistence\EFC\Configuration\.DS_Store" />
+    </ItemGroup>
+
 </Project>
