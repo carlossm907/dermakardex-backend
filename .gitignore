@@ -1,0 +1,87 @@
+# ===============================
+# BUILD & OUTPUT
+# ===============================
+bin/
+obj/
+out/
+
+# ===============================
+# USER-SPECIFIC FILES
+# ===============================
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ===============================
+# IDEs
+# ===============================
+
+# Visual Studio
+.vs/
+
+# Visual Studio Code
+.vscode/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# ===============================
+# DOTNET
+# ===============================
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ===============================
+# LOGS
+# ===============================
+*.log
+
+# ===============================
+# OS FILES
+# ===============================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# ===============================
+# ENVIRONMENT / SECRETS
+# ===============================
+.env
+.env.*
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+
+# ===============================
+# DATABASE
+# ===============================
+*.mdf
+*.ldf
+
+# ===============================
+# TEST RESULTS
+# ===============================
+TestResults/
+
+# ===============================
+# COVERAGE
+# ===============================
+coverage/
+*.coverage
+*.coveragexml
+
+# ===============================
+# PACKAGES
+# ===============================
+*.nupkg
+*.snupkg
+
+# ===============================
+# TEMP
+# ===============================
+*.tmp
+*.temp
