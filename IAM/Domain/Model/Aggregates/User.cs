@@ -8,7 +8,7 @@ public class User
     public int Id { get; private set; }
     public FullName FullName { get; private set; }
     public PasswordHash PasswordHash { get; private set; }
-    public Role Role { get; private set; }
+    public Role Role { get; private set; } = Role.Default();
     public Username Username { get; private set; } = null!;
 
     protected User()

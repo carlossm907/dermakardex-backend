@@ -4,6 +4,11 @@ public record FullName
 {
     public string Value { get; }
 
+    protected FullName()
+    {
+        Value = null!;
+    }
+
     public FullName(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
