@@ -1,3 +1,5 @@
+using Products.Domain.Model.Commands;
+
 namespace Products.Domain.Model.Aggregates;
 
 public class Product
@@ -48,8 +50,21 @@ public class Product
         SetStock(inititalStock);
         SetStockAlert(stockAlertThreshold);
 
+        ValidateDiscountRule();
+
         IsActive = true;
 
+    }
+
+    public Product(CreateProductCommand command)
+    {
+        Name = command.Name;
+
+        PurchasePrice = new Money(command.PurchasePrice);
+        SalePrice = new Money(command.SalePrice);
+        MaxDiscountAmount = new Money(command.MaxDiscountAmount);
+
+        ValidateDiscountRule();
     }
 
     public void SetName(string name)
@@ -118,6 +133,6 @@ public class Product
         => Stock <= StockAlertThreshold;
 
     public void Activate() => IsActive = true;
-    public void Desactivate() => IsActive = false;
+    public void Deactivate() => IsActive = false;
 
 }
