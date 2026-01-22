@@ -1,9 +1,9 @@
 using System.Net.Mime;
-using dermakardex_backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using IAM.Domain.Services;
 using IAM.Intefaces.REST.Resources;
 using IAM.Interfaces.REST.Resources;
 using IAM.Interfaces.REST.Transform;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
