@@ -1,4 +1,4 @@
-using dermakardex_backend.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+
 using dermakardex_backend.Shared.Infrastructure.Documentation.OpenApi.Configuration.Extensions;
 using dermakardex_backend.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using dermakardex_backend.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
@@ -34,6 +34,5 @@ app.UseCorsPolicy();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRequestAuthorization();
 app.MapControllers();
 app.Run();
