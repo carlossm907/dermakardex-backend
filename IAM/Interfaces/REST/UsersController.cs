@@ -1,5 +1,5 @@
 using System.Net.Mime;
-using dermakardex_backend.IAM.Infrastructure.Pipeline.Middleware.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using IAM.Domain.Model.Queries;
 using IAM.Domain.Services;
 using IAM.Interfaces.REST.Resources;
@@ -16,7 +16,8 @@ namespace IAM.Interfaces.REST;
 [SwaggerTag("Available User endpoints")]
 public class UsersController(IUserQueryService userQueryService) : ControllerBase
 {
-
+    
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet("{id}")]
     [SwaggerOperation(
         Summary = "Get a user by its id",
@@ -30,6 +31,7 @@ public class UsersController(IUserQueryService userQueryService) : ControllerBas
         return Ok(userResource);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all users",
@@ -43,5 +45,5 @@ public class UsersController(IUserQueryService userQueryService) : ControllerBas
         var userResources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(userResources);
     }
-    
+
 }
