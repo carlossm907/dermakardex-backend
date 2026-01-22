@@ -21,6 +21,8 @@ builder.AddCorsServices();
 
 builder.AddSharedContextServices();
 builder.AddIamContextServices();
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
 
 builder.AddCortexConfigurationServices();
 
@@ -30,6 +32,7 @@ app.UseDatabaseCreationAssurance();
 app.UseOpenApiDocumentation();
 app.UseCorsPolicy();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseRequestAuthorization();
 app.MapControllers();
