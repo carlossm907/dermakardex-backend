@@ -57,14 +57,21 @@ public class Product
     }
 
     public Product(CreateProductCommand command)
+    : this(
+        command.Name,
+        command.BrandId,
+        command.LaboratoryId,
+        command.CategoryId,
+        command.SupplierId,
+        command.Presentation,
+        new Money(command.PurchasePrice),
+        new Money(command.SalePrice),
+        new Money(command.MaxDiscountAmount),
+        command.InitialStock,
+        command.StockAlertThreshold
+    )
     {
-        Name = command.Name;
 
-        PurchasePrice = new Money(command.PurchasePrice);
-        SalePrice = new Money(command.SalePrice);
-        MaxDiscountAmount = new Money(command.MaxDiscountAmount);
-
-        ValidateDiscountRule();
     }
 
     public void SetName(string name)
