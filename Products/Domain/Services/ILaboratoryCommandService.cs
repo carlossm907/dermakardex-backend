@@ -7,5 +7,5 @@ public interface ILaboratoryCommandService
 {
     Task<Laboratory?> Handle(CreateLaboratoryCommand command);
     Task<Laboratory?> Handle(UpdateLaboratoryCommand command);
-    Task Handle(DeleteLaboratoryCommand command);
+    Task<bool> Handle(DeleteLaboratoryCommand command);
 }

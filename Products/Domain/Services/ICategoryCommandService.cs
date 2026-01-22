@@ -7,5 +7,5 @@ public interface ICategoryCommandService
 {
     Task<Category?> Handle(CreateCategoryCommand command);
     Task<Category?> Handle(UpdateCategoryCommand command);
-    Task Handle(DeleteCategoryCommand command);
+    Task<bool> Handle(DeleteCategoryCommand command);
 }

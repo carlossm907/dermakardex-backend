@@ -7,5 +7,5 @@ public interface ISupplierCommandService
 {
     Task<Supplier?> Handle(CreateSupplierCommand command);
     Task<Supplier?> Handle(UpdateSupplierCommand command);
-    Task Handle(DeleteSupplierCommand command);
+    Task<bool> Handle(DeleteSupplierCommand command);
 }
