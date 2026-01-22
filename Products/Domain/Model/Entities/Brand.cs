@@ -1,5 +1,3 @@
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-
 namespace Products.Domain.Model.Entitites;
 
 public class Brand
