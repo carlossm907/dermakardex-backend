@@ -7,5 +7,5 @@ public interface IBrandCommandService
 {
     Task<Brand?> Handle(CreateBrandCommand command);
     Task<Brand?> Handle(UpdateBrandCommand command);
-    Task Handle(DeleteBrandCommand command);
+    Task<bool> Handle(DeleteBrandCommand command);
 }
