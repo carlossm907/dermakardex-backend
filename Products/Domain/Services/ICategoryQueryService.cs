@@ -6,4 +6,6 @@ namespace Products.Domain.Services;
 public interface ICategoryQueryService
 {
     Task<IEnumerable<Category>> Handle(GetAllCategoriesQuery query);
+
+    Task<Category?> Handle(GetCategoryByIdQuery query);
 }

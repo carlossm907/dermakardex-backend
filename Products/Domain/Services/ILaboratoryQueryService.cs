@@ -6,4 +6,6 @@ namespace Products.Domain.Services;
 public interface ILaboratoryQueryService
 {
     Task<IEnumerable<Laboratory>> Handle(GetAllLaboratoriesQuery query);
+
+    Task<Laboratory?> Handle(GetLaboratoryByIdQuery query);
 }
