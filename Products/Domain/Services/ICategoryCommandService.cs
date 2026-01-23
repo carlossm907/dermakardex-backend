@@ -1,7 +1,7 @@
 using Products.Domain.Model.Commands;
 using Products.Domain.Model.Entities;
 
-namespace Products.DomainServices;
+namespace Products.Domain.Services;
 
 public interface ICategoryCommandService
 {
