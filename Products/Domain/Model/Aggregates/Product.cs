@@ -74,6 +74,39 @@ public class Product
 
     }
 
+    public void Update(
+    string name,
+    int brandId,
+    int laboratoryId,
+    int categoryId,
+    int supplierId,
+    ProductPresentation presentation,
+    Money purchasePrice,
+    Money salePrice,
+    Money maxDiscountAmount,
+    int stockAlertThreshold,
+    bool isActive
+)
+    {
+        SetName(name);
+
+        ChangeBrand(brandId);
+        ChangeLaboratory(laboratoryId);
+        ChangeCategory(categoryId);
+        ChangeSupplier(supplierId);
+
+        ChangePresentation(presentation);
+        ChangePrices(purchasePrice, salePrice);
+        ChangeMaxDiscount(maxDiscountAmount);
+        SetStockAlert(stockAlertThreshold);
+
+        if (isActive)
+            Activate();
+        else
+            Deactivate();
+    }
+
+
     public void SetName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -88,6 +121,39 @@ public class Product
     {
         Presentation = presentation;
     }
+
+    public void ChangeBrand(int brandId)
+    {
+        if (brandId <= 0)
+            throw new ArgumentException("BrandId must be valid");
+
+        BrandId = brandId;
+    }
+
+    public void ChangeCategory(int categoryId)
+    {
+        if (categoryId <= 0)
+            throw new ArgumentException("CategoryId must be valid");
+
+        CategoryId = categoryId;
+    }
+
+    public void ChangeSupplier(int supplierId)
+    {
+        if (supplierId <= 0)
+            throw new ArgumentException("SupplierId must be valid");
+
+        SupplierId = supplierId;
+    }
+
+    public void ChangeLaboratory(int laboratoryId)
+    {
+        if (laboratoryId <= 0)
+            throw new ArgumentException("LaboratoryId must be valid");
+
+        LaboratoryId = laboratoryId;
+    }
+
 
     public void ChangePrices(Money purchasePrice, Money salePrice)
     {
