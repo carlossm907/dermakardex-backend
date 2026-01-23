@@ -63,7 +63,8 @@ public class BrandsController(IBrandCommandService brandCommandService, IBrandQu
     [HttpPut("{brandId:int}")]
     public async Task<IActionResult> UpdateBrand(int brandId, [FromBody] UpdateBrandResource resource)
     {
-        var brand = await brandCommandService.Handle(new UpdateBrandCommand(brandId, resource.Name));
+        var command = UpdateBrandCommandFromResourceAssembler.ToCommandFromResource(brandId, resource);
+        var brand = await brandCommandService.Handle(command);
 
         if (brand is null) return NotFound();
 
