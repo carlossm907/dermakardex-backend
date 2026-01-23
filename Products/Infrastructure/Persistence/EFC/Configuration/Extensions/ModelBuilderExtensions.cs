@@ -9,7 +9,7 @@ public static class ModelBuilderExtensions
 {
     public static void ApplyProductsConfiguration(this ModelBuilder builder)
     {
-
+        // Product Aggregate
         builder.Entity<Product>(product =>
         {
             product.ToTable("products");
@@ -35,34 +35,65 @@ public static class ModelBuilderExtensions
             product.Property(p => p.StockAlertThreshold)
                 .IsRequired();
 
-            // Value Object: Money
+            product.Property(p => p.BrandId)
+                .IsRequired();
+
+            product.Property(p => p.CategoryId)
+                .IsRequired();
+
+            product.Property(p => p.SupplierId)
+                .IsRequired();
+
+            product.Property(p => p.LaboratoryId)
+                .IsRequired();
+
+            // Value Object: PurchasePrice
             product.OwnsOne(p => p.PurchasePrice, money =>
             {
+                money.WithOwner().HasForeignKey("Id");
+
                 money.Property(m => m.Amount)
-                     .HasColumnName("purchase_price")
-                     .IsRequired();
+                    .HasColumnName("purchase_price_amount")
+                    .IsRequired();
+
+                money.Property(m => m.Currency)
+                    .HasColumnName("purchase_price_currency")
+                    .HasMaxLength(3)
+                    .IsRequired();
             });
 
+            // Value Object: SalePrice
             product.OwnsOne(p => p.SalePrice, money =>
             {
+                money.WithOwner().HasForeignKey("Id");
+
                 money.Property(m => m.Amount)
-                     .HasColumnName("sale_price")
-                     .IsRequired();
+                    .HasColumnName("sale_price_amount")
+                    .IsRequired();
+
+                money.Property(m => m.Currency)
+                    .HasColumnName("sale_price_currency")
+                    .HasMaxLength(3)
+                    .IsRequired();
             });
 
+            // Value Object: MaxDiscountAmount
             product.OwnsOne(p => p.MaxDiscountAmount, money =>
             {
-                money.Property(m => m.Amount)
-                     .HasColumnName("max_discount_amount")
-                     .IsRequired();
-            });
+                money.WithOwner().HasForeignKey("Id");
 
-            product.Property(p => p.BrandId).IsRequired();
-            product.Property(p => p.CategoryId).IsRequired();
-            product.Property(p => p.SupplierId).IsRequired();
-            product.Property(p => p.LaboratoryId).IsRequired();
+                money.Property(m => m.Amount)
+                    .HasColumnName("max_discount_amount")
+                    .IsRequired();
+
+                money.Property(m => m.Currency)
+                    .HasColumnName("max_discount_currency")
+                    .HasMaxLength(3)
+                    .IsRequired();
+            });
         });
 
+        // Brand
         builder.Entity<Brand>(brand =>
         {
             brand.ToTable("brands");
@@ -70,13 +101,14 @@ public static class ModelBuilderExtensions
             brand.HasKey(b => b.Id);
 
             brand.Property(b => b.Id)
-                 .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd();
 
             brand.Property(b => b.Name)
-                 .IsRequired()
-                 .HasMaxLength(150);
+                .IsRequired()
+                .HasMaxLength(150);
         });
 
+        // Category
         builder.Entity<Category>(category =>
         {
             category.ToTable("categories");
@@ -84,13 +116,14 @@ public static class ModelBuilderExtensions
             category.HasKey(c => c.Id);
 
             category.Property(c => c.Id)
-                    .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd();
 
             category.Property(c => c.Name)
-                    .IsRequired()
-                    .HasMaxLength(150);
+                .IsRequired()
+                .HasMaxLength(150);
         });
 
+        // Laboratory
         builder.Entity<Laboratory>(laboratory =>
         {
             laboratory.ToTable("laboratories");
@@ -98,13 +131,14 @@ public static class ModelBuilderExtensions
             laboratory.HasKey(l => l.Id);
 
             laboratory.Property(l => l.Id)
-                      .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd();
 
             laboratory.Property(l => l.Name)
-                      .IsRequired()
-                      .HasMaxLength(150);
+                .IsRequired()
+                .HasMaxLength(150);
         });
 
+        // Supplier
         builder.Entity<Supplier>(supplier =>
         {
             supplier.ToTable("suppliers");
@@ -112,11 +146,11 @@ public static class ModelBuilderExtensions
             supplier.HasKey(s => s.Id);
 
             supplier.Property(s => s.Id)
-                    .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd();
 
             supplier.Property(s => s.Name)
-                    .IsRequired()
-                    .HasMaxLength(150);
+                .IsRequired()
+                .HasMaxLength(150);
         });
     }
 }
