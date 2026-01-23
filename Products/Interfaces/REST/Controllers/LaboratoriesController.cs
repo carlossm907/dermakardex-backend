@@ -1,12 +1,18 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Products.Domain.Model.Commands;
 using Products.Domain.Model.Queries;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;
 using Products.Interfaces.REST.Transform;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Products.Interfaces.REST.Controllers;
 
+[ApiController]
+[Route("api/v1/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
+[SwaggerTag("Laboratories Endpoints.")]
 public class LaboratoriesRepository(ILaboratoryCommandService laboratoryCommandService, ILaboratoryQueryService laboratoryQueryService) : ControllerBase
 {
     [HttpGet]
@@ -33,6 +39,7 @@ public class LaboratoriesRepository(ILaboratoryCommandService laboratoryCommandS
         return Ok(laboratoryResource);
     }
 
+    [HttpPost]
     public async Task<IActionResult> CreateLaboratory(CreateLaboratoryResource resource)
     {
         var createLaboratoryCommand = CreateLaboratoryCommandFromResourceAssembler.ToCommandFromResource(resource);
