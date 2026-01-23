@@ -24,13 +24,19 @@ public class ProductCommandService(IProductRepository productRepository, IUnitOf
         var product = await productRepository.FindByIdAsync(command.ProductId);
         if (product is null) return null;
 
-        product.SetName(command.Name);
-        product.ChangePresentation(command.Presentation);
-
-        product.GetType().GetProperty("BrandId")?.SetValue(product, command.BrandId);
-        product.GetType().GetProperty("LaboratoryId")?.SetValue(product, command.LaboratoryId);
-        product.GetType().GetProperty("CategoryId")?.SetValue(product, command.CategoryId);
-        product.GetType().GetProperty("SupplierId")?.SetValue(product, command.SupplierId);
+        product.Update(
+        command.Name,
+        command.BrandId,
+        command.LaboratoryId,
+        command.CategoryId,
+        command.SupplierId,
+        command.Presentation,
+        new Money(command.PurchasePrice),
+        new Money(command.SalePrice),
+        new Money(command.MaxDiscountAmount),
+        command.StockAlertThreshold,
+        command.IsActive
+    );
 
         await unitOfWork.CompleteAsync();
         return product;
