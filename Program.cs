@@ -5,6 +5,7 @@ using dermakardex_backend.Shared.Infrastructure.Interfaces.ASP.Configuration.Ext
 using dermakardex_backend.Shared.Infrastructure.Mediator.Cortex.Configuration.Extensions;
 using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using IAM.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using Products.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.AddCorsServices();
 
 builder.AddSharedContextServices();
 builder.AddIamContextServices();
+builder.Services.AddProductsContextServices();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 
