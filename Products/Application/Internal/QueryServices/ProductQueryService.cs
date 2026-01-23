@@ -1,7 +1,7 @@
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Queries;
-using Products.Domain.Repositories;
 using Products.Domain.Services;
+using Products.Domain.Repositories;
 
 namespace Products.Application.Internal.QueryServices;
 
