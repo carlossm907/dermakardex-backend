@@ -1,6 +1,7 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using IAM.Infrastructure.Persistence.EF.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Products.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 namespace dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -8,7 +9,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
-        // Add the created and updated interceptor
         builder.AddCreatedUpdatedInterceptor();
         base.OnConfiguring(builder);
     }
@@ -17,8 +17,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         base.OnModelCreating(builder);
 
         builder.ApplyIamConfiguration();
-        
-        // Use snake case for database objects and pluralization for table names
+
+        builder.ApplyProductsConfiguration();
+
         builder.UseSnakeCaseNamingConvention();
     }
 }
