@@ -11,4 +11,9 @@ public class CayegoryQueryService(ICategoryRepository categoryRepository) : ICat
     {
         return await categoryRepository.ListAsync();
     }
+
+    public async Task<Category?> Handle(GetCategoryByIdQuery query)
+    {
+        return await categoryRepository.FindByIdAsync(query.CategoryId);
+    }
 }

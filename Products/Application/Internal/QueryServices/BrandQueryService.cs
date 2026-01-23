@@ -11,4 +11,9 @@ public class BrandQueryService(IBrandRepository brandRepository) : IBrandQuerySe
     {
         return await brandRepository.ListAsync();
     }
+
+    public async Task<Brand?> Handle(GetBrandByIdQuery query)
+    {
+        return await brandRepository.FindByIdAsync(query.BrandId);
+    }
 }

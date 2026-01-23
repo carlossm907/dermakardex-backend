@@ -11,4 +11,9 @@ public class LaboratoryQueryService(ILaboratoryRepository laboratoryRepository) 
     {
         return await laboratoryRepository.ListAsync();
     }
+
+    public async Task<Laboratory?> Handle(GetLaboratoryByIdQuery query)
+    {
+        return await laboratoryRepository.FindByIdAsync(query.LaboratoryId);
+    }
 }
