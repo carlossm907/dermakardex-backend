@@ -6,4 +6,6 @@ namespace Products.Domain.Repositories;
 public interface ISupplierRepository : IBaseRepository<Supplier>
 {
     Task<IEnumerable<Supplier>> FindAllAsync();
+
+    Task<bool> ExistsByIdAsync(int supplierId);
 }

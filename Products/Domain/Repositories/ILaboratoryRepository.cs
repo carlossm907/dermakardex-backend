@@ -6,4 +6,6 @@ namespace Products.Domain.Repositories;
 public interface ILaboratoryRepository : IBaseRepository<Laboratory>
 {
     Task<IEnumerable<Laboratory>> FindAllAsync();
+
+    Task<bool> ExistsByIdAsync(int laboratoryId);
 }

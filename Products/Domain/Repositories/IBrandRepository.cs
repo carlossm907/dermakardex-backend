@@ -6,4 +6,6 @@ namespace Products.Domain.Repositories;
 public interface IBrandRepository : IBaseRepository<Brand>
 {
     Task<IEnumerable<Brand>> FindAllAsync();
+
+    Task<bool> ExistsByIdAsync(int brandId);
 }

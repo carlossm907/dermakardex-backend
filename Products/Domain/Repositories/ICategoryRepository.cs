@@ -6,4 +6,6 @@ namespace Products.Domain.Repositoies;
 public interface ICategoryRepository : IBaseRepository<Category>
 {
     Task<IEnumerable<Category>> FindAllAsync();
+
+    Task<bool> ExistsByIdAsync(int categoryId);
 }
