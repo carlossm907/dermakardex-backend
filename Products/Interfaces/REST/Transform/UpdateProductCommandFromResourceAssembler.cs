@@ -1,0 +1,28 @@
+using Products.Domain.Model.Aggregates;
+using Products.Domain.Model.Commands;
+using Products.Interfaces.REST.Resources;
+
+namespace Products.Interfaces.REST.Transform;
+
+public static class UpdateProductCommandFromResourceAssembler
+{
+    public static UpdateProductCommand ToCommandFromResource(
+        int productId,
+        UpdateProductResource resource)
+    {
+        return new UpdateProductCommand(
+            productId,
+            resource.Name,
+            resource.BrandId,
+            resource.LaboratoryId,
+            resource.CategoryId,
+            resource.SupplierId,
+            Enum.Parse<ProductPresentation>(resource.Presentation),
+            resource.PurchasePrice,
+            resource.SalePrice,
+            resource.MaxDiscountAmount,
+            resource.StockAlertThreshold,
+            resource.IsActive
+        );
+    }
+}
