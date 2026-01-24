@@ -13,7 +13,7 @@ namespace Products.Interfaces.REST.Controllers;
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Laboratories Endpoints.")]
-public class LaboratoriesRepository(ILaboratoryCommandService laboratoryCommandService, ILaboratoryQueryService laboratoryQueryService) : ControllerBase
+public class Laboratories(ILaboratoryCommandService laboratoryCommandService, ILaboratoryQueryService laboratoryQueryService) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllLaboratories()
