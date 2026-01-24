@@ -8,6 +8,12 @@ namespace Products.Infrastructure.Persistence.EFC.Repositories;
 
 public class CategoryRepository(AppDbContext context) : BaseRepository<Category>(context), ICategoryRepository
 {
+    public async Task<bool> ExistsByIdAsync(int categoryId)
+    {
+        return await Context.Set<Category>()
+            .AnyAsync(c => c.Id == categoryId);
+    }
+
     public async Task<IEnumerable<Category>> FindAllAsync()
         => await Context.Set<Category>().ToListAsync();
 }

@@ -8,6 +8,12 @@ namespace Products.Infrastructure.Persistence.EFC.Repositories;
 
 public class LaboratoryRepository(AppDbContext context) : BaseRepository<Laboratory>(context), ILaboratoryRepository
 {
+    public async Task<bool> ExistsByIdAsync(int laboratoryId)
+    {
+        return await Context.Set<Laboratory>()
+            .AnyAsync(l => l.Id == laboratoryId);
+    }
+
     public async Task<IEnumerable<Laboratory>> FindAllAsync()
         => await Context.Set<Laboratory>().ToListAsync();
 }
