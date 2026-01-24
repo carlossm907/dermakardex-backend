@@ -18,6 +18,14 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ISupplierRepository, SupplierRepository>();
         services.AddScoped<IProductCommandService, ProductCommandService>();
         services.AddScoped<IProductQueryService, ProductQueryService>();
+        services.AddScoped<IBrandCommandService, BrandCommandService>();
+        services.AddScoped<IBrandQueryService, BrandQueryService>();
+        services.AddScoped<ICategoryCommandService, CategoryCommandService>();
+        services.AddScoped<ICategoryQueryService, CategoryQueryService>();
+        services.AddScoped<ILaboratoryCommandService, LaboratoryCommandService>();
+        services.AddScoped<ILaboratoryQueryService, LaboratoryQueryService>();
+        services.AddScoped<ISupplierCommandService, SupplierCommandService>();
+        services.AddScoped<ISupplierQueryService, SupplierQueryService>();
 
         return services;
     }
