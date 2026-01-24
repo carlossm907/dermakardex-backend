@@ -5,7 +5,7 @@ using Products.Domain.Services;
 
 namespace Products.Application.Internal.QueryServices;
 
-public class CayegoryQueryService(ICategoryRepository categoryRepository) : ICategoryQueryService
+public class CategoryQueryService(ICategoryRepository categoryRepository) : ICategoryQueryService
 {
     public async Task<IEnumerable<Category>> Handle(GetAllCategoriesQuery query)
     {
