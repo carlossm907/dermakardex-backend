@@ -16,6 +16,9 @@ namespace Products.Interfaces.REST.Controllers;
 public class CategoriesController(ICategoryCommandService categoryCommandService, ICategoryQueryService categoryQueryService) : ControllerBase
 {
     [HttpGet]
+    [SwaggerOperation("Get All Categories", "Get all categories.", OperationId = "GetAllCategories")]
+    [SwaggerResponse(200, "The categories were found and returned.", typeof(IEnumerable<CategoryResource>))]
+    [SwaggerResponse(404, "The categories were not found.")]
     public async Task<IActionResult> GetAllCategories()
     {
         var getAllCategoriesQuery = new GetAllCategoriesQuery();
@@ -26,6 +29,9 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
     }
 
     [HttpGet("{categoryId:int}")]
+    [SwaggerOperation("Get Category by Id", "Get a category by its unique identifier.", OperationId = "GetCategoryById")]
+    [SwaggerResponse(200, "The category was found and returned.", typeof(CategoryResource))]
+    [SwaggerResponse(404, "The category was not found.")]
     public async Task<IActionResult> GetCategoryId(int categoryId)
     {
         var getCategoryByIdQuery = new GetCategoryByIdQuery(categoryId);
@@ -39,6 +45,9 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
     }
 
     [HttpPost]
+    [SwaggerOperation("Create Category", "Create a new category.", OperationId = "CreateCategory")]
+    [SwaggerResponse(201, "The category was created.", typeof(CategoryResource))]
+    [SwaggerResponse(400, "The category was not created.")]
     public async Task<IActionResult> CreateCategory(CreateCategoryResource resource)
     {
         var createCategoryCommand = CreateCategoryCommandFromResourceAssembler.ToCommandFromResource(resource);
@@ -51,6 +60,9 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
     }
 
     [HttpPut("{categoryId:int}")]
+    [SwaggerOperation("Update Category", "Update an existing category.", OperationId = "UpdateCategory")]
+    [SwaggerResponse(200, "The category was updated.", typeof(CategoryResource))]
+    [SwaggerResponse(404, "The category was not found.")]
     public async Task<IActionResult> UpdateCategory(int categoryId, [FromBody] UpdateCategoryResource resource)
     {
         var command = UpdateCategoryCommandFromResourceAssembler.ToCommandFromResource(categoryId, resource);
@@ -62,7 +74,10 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
         return Ok(categoryResource);
     }
 
-    [HttpDelete]
+    [HttpDelete("{categoryId:int}")]
+    [SwaggerOperation("Delete Category", "Delete an existing category.", OperationId = "DeleteCategory")]
+    [SwaggerResponse(200, "The category was deleted.")]
+    [SwaggerResponse(404, "The category was not found.")]
     public async Task<IActionResult> DeleteCategory(int categoryId)
     {
         var result = await categoryCommandService.Handle(new DeleteCategoryCommand(categoryId));

@@ -16,6 +16,9 @@ namespace Products.Interfaces.REST.Controllers;
 public class SuppliersController(ISupplierCommandService supplierCommandService, ISupplierQueryService supplierQueryService) : ControllerBase
 {
     [HttpGet]
+    [SwaggerOperation("Get All Suppliers", "Get all suppliers.", OperationId = "GetAllSuppliers")]
+    [SwaggerResponse(200, "The suppliers were found and returned.", typeof(IEnumerable<SupplierResource>))]
+    [SwaggerResponse(404, "The suppliers were not found.")]
     public async Task<IActionResult> GetAllSuppliers()
     {
         var getAllSuppliersQuery = new GetAllSuppliersQuery();
@@ -26,6 +29,9 @@ public class SuppliersController(ISupplierCommandService supplierCommandService,
     }
 
     [HttpGet("{supplierId:int}")]
+    [SwaggerOperation("Get Supplier by Id", "Get a supplier by its unique identifier.", OperationId = "GetSupplierById")]
+    [SwaggerResponse(200, "The supplier was found and returned.", typeof(SupplierResource))]
+    [SwaggerResponse(404, "The supplier was not found.")]
     public async Task<IActionResult> GetSupplierById(int supplierId)
     {
         var getSupplierByIdQuery = new GetSupplierByIdQuery(supplierId);
@@ -39,6 +45,9 @@ public class SuppliersController(ISupplierCommandService supplierCommandService,
     }
 
     [HttpPost]
+    [SwaggerOperation("Create Supplier", "Create a new supplier.", OperationId = "CreateSupplier")]
+    [SwaggerResponse(201, "The supplier was created.", typeof(SupplierResource))]
+    [SwaggerResponse(400, "The supplier was not created.")]
     public async Task<IActionResult> CreateSupplier(CreateSupplierResource resource)
     {
         var createSupplierCommand = CreateSupplierCommandFromResourceAssembler.ToCommandFromResource(resource);
@@ -52,6 +61,9 @@ public class SuppliersController(ISupplierCommandService supplierCommandService,
     }
 
     [HttpPut("{supplierId:int}")]
+    [SwaggerOperation("Update Supplier", "Update an existing supplier.", OperationId = "UpdateSupplier")]
+    [SwaggerResponse(200, "The supplier was updated.", typeof(SupplierResource))]
+    [SwaggerResponse(404, "The supplier was not found.")]
     public async Task<IActionResult> UpdateSupplier(int supplierId, [FromBody] UpdateSupplierResource resource)
     {
         var command = UpdateSupplierCommandFromResourceAssembler.ToCommandFromResource(supplierId, resource);
@@ -64,7 +76,10 @@ public class SuppliersController(ISupplierCommandService supplierCommandService,
         return Ok(supplierResource);
     }
 
-    [HttpDelete]
+    [HttpDelete("{supplierId:int}")]
+    [SwaggerOperation("Delete Supplier", "Delete an existing supplier.", OperationId = "DeleteSupplier")]
+    [SwaggerResponse(200, "The supplier was deleted.")]
+    [SwaggerResponse(404, "The supplier was not found.")]
     public async Task<IActionResult> DeleteSupplier(int supplierId)
     {
         var result = await supplierCommandService.Handle(new DeleteSupplierCommand(supplierId));

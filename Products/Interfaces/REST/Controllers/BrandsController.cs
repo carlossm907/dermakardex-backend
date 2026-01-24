@@ -61,6 +61,9 @@ public class BrandsController(IBrandCommandService brandCommandService, IBrandQu
     }
 
     [HttpPut("{brandId:int}")]
+    [SwaggerOperation("Update Brand", "Update an existing brand.", OperationId = "UpdateBrand")]
+    [SwaggerResponse(200, "The brand was updated.", typeof(BrandResource))]
+    [SwaggerResponse(404, "The brand was not found.")]
     public async Task<IActionResult> UpdateBrand(int brandId, [FromBody] UpdateBrandResource resource)
     {
         var command = UpdateBrandCommandFromResourceAssembler.ToCommandFromResource(brandId, resource);
@@ -73,7 +76,10 @@ public class BrandsController(IBrandCommandService brandCommandService, IBrandQu
         return Ok(brandResource);
     }
 
-    [HttpDelete]
+    [HttpDelete("{brandId:int}")]
+    [SwaggerOperation("Delete Brand", "Delete an existing brand.", OperationId = "DeleteBrand")]
+    [SwaggerResponse(200, "The brand was deleted.")]
+    [SwaggerResponse(404, "The brand was not found.")]
     public async Task<IActionResult> DeleteBrand(int brandId)
     {
         var result = await brandCommandService.Handle(new DeleteBrandCommand(brandId));

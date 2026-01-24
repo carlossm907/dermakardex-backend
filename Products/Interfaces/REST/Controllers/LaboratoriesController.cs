@@ -66,7 +66,7 @@ public class LaboratoriesRepository(ILaboratoryCommandService laboratoryCommandS
 
     }
 
-    [HttpDelete]
+    [HttpDelete("{laboratoryId:int}")]
     public async Task<IActionResult> DeleteLaboratory(int laboratoryId)
     {
         var result = await laboratoryCommandService.Handle(new DeleteLaboratoryCommand(laboratoryId));
