@@ -5,7 +5,7 @@ using Products.Domain.Services;
 
 namespace Products.Application.Internal.QueryServices;
 
-public class SupplierQueriyService(ISupplierRepository supplierRepository) : ISupplierQueryService
+public class SupplierQueryService(ISupplierRepository supplierRepository) : ISupplierQueryService
 {
     public async Task<IEnumerable<Supplier>> Handle(GetAllSuppliersQuery query)
     {
