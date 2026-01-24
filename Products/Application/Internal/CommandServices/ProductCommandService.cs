@@ -2,15 +2,29 @@
 using dermakardex_backend.Shared.Domain.Repositories;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Commands;
+using Products.Domain.Repositoies;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
 
 namespace Products.Application.Internal.CommandServices;
 
-public class ProductCommandService(IProductRepository productRepository, IUnitOfWork unitOfWork) : IProductCommandService
+public class ProductCommandService(
+    IProductRepository productRepository,
+    IBrandRepository brandRepository,
+    ICategoryRepository categoryRepository,
+    ISupplierRepository supplierRepository,
+    ILaboratoryRepository laboratoryRepository,
+    IUnitOfWork unitOfWork) : IProductCommandService
 {
     public async Task<Product?> Handle(CreateProductCommand command)
     {
+        await ValidateRelatedAggregatesExist(
+            command.BrandId,
+            command.CategoryId,
+            command.SupplierId,
+            command.LaboratoryId
+        );
+
         var product = new Product(command);
 
         await productRepository.AddAsync(product);
@@ -89,5 +103,25 @@ public class ProductCommandService(IProductRepository productRepository, IUnitOf
 
         product.Deactivate();
         await unitOfWork.CompleteAsync();
+    }
+
+    private async Task ValidateRelatedAggregatesExist(
+        int brandId,
+        int categoryId,
+        int supplierId,
+        int laboratoryId
+    )
+    {
+        if (!await brandRepository.ExistsByIdAsync(brandId))
+            throw new ArgumentException("Brand does not exist");
+
+        if (!await categoryRepository.ExistsByIdAsync(categoryId))
+            throw new ArgumentException("Category does not exist");
+
+        if (!await supplierRepository.ExistsByIdAsync(supplierId))
+            throw new ArgumentException("Supplier does not exist");
+
+        if (!await laboratoryRepository.ExistsByIdAsync(laboratoryId))
+            throw new ArgumentException("Laboratory does not exist");
     }
 }
