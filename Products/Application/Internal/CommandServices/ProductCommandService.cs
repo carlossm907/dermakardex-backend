@@ -2,7 +2,6 @@ using dermakardex_backend.Shared.Domain.Repositories;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Commands;
 using Products.Domain.Model.Entities;
-using Products.Domain.Repositoies;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
 
