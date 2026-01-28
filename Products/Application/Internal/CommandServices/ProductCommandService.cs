@@ -2,6 +2,7 @@ using dermakardex_backend.Shared.Domain.Repositories;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Commands;
 using Products.Domain.Model.Entities;
+using Products.Domain.Model.ValueObjects;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
 
@@ -129,6 +130,99 @@ public class ProductCommandService(
 
         await unitOfWork.CompleteAsync();
 
+    }
+
+    public async Task Handle(ApplyDiscountToProductCommand command)
+    {
+        var product = await productRepository.FindByIdAsync(command.ProductId);
+
+        if (product is null) throw new ArgumentException("Product does not exist");
+
+        Discount discount;
+
+        if (command.Type == DiscountType.Amount)
+        {
+            discount = Discount.Amount(command.Value);
+        }
+        else if (command.Type == DiscountType.Percentaje)
+        {
+            discount = Discount.Percentaje(command.Value);
+        }
+        else
+        {
+            discount = Discount.None();
+        }
+
+        product.SetDiscount(discount);
+
+        await unitOfWork.CompleteAsync();
+    }
+
+    public async Task Handle(RemoveDiscountFromProductCommand command)
+    {
+        var product = await productRepository.FindByIdAsync(command.ProductId);
+
+        if (product is null) throw new ArgumentException("Product does not exist");
+
+        product.RemoveDiscount();
+
+        await unitOfWork.CompleteAsync();
+    }
+
+    public async Task Handle(ApplyDiscountToProductsCommand command)
+    {
+        Discount discount;
+
+        if (command.Type == DiscountType.Amount)
+        {
+            discount = Discount.Amount(command.Value);
+        }
+        else if (command.Type == DiscountType.Percentaje)
+        {
+            discount = Discount.Percentaje(command.Value);
+        }
+        else
+        {
+            discount = Discount.None();
+        }
+
+        foreach (var productId in command.ProductIds)
+        {
+            var product = await productRepository.FindByIdAsync(productId);
+            if (product is null)
+                continue;
+
+            product.SetDiscount(discount);
+        }
+
+        await unitOfWork.CompleteAsync();
+    }
+
+    public async Task Handle(ApplyDiscountToAllProductsCommand command)
+    {
+        var products = await productRepository.ListAsync();
+
+        Discount discount;
+
+        if (command.Type == DiscountType.Amount)
+        {
+            discount = Discount.Amount(command.Value);
+        }
+        else if (command.Type == DiscountType.Percentaje)
+        {
+            discount = Discount.Percentaje(command.Value);
+        }
+        else
+        {
+            discount = Discount.None();
+        }
+
+        foreach (var product in products)
+        {
+            product.SetDiscount(discount);
+        }
+
+        await unitOfWork.CompleteAsync();
     }
 
     private async Task ValidateRelatedAggregatesExist(
