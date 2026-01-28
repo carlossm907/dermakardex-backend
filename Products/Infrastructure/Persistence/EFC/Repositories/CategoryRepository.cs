@@ -2,7 +2,7 @@ using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Products.Domain.Model.Entities;
-using Products.Domain.Repositoies;
+using Products.Domain.Repositories;
 
 namespace Products.Infrastructure.Persistence.EFC.Repositories;
 
