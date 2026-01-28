@@ -1,3 +1,5 @@
+using Products.Domain.Model.ValueObjects;
+
 namespace Products.Interfaces.REST.Resources;
 
 public record ProductResource(
@@ -9,8 +11,11 @@ public record ProductResource(
     int SupplierId,
     string Presentation,
     decimal PurchasePrice,
+    decimal FinalPrice,
     decimal SalePrice,
     decimal MaxDiscountAmount,
+    DiscountType DiscountType,
+    decimal DiscountValue,
     int Stock,
     bool IsActive
 );
