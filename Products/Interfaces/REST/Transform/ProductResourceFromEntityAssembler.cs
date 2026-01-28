@@ -16,8 +16,11 @@ public static class ProductResourceFromEntityAssembler
             product.SupplierId,
             product.Presentation.ToString(),
             product.PurchasePrice.Amount,
+            product.GetFinalPrice().Amount,
             product.SalePrice.Amount,
             product.MaxDiscountAmount.Amount,
+            product.Discount.Type,
+            product.Discount.Value,
             product.Stock,
             product.IsActive
         );
