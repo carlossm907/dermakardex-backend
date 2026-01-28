@@ -19,7 +19,8 @@ public class ProductRepository(AppDbContext context) : BaseRepository<Product>(c
         var query = Context.Set<Product>().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(Name))
-            query = query.Where(p => p.Name.Contains(Name));
+            query = query.Where(p =>
+            EF.Functions.ILike(p.Name, $"%{Name.Trim()}%"));
 
         return await query.ToListAsync();
     }
