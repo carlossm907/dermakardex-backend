@@ -1,4 +1,4 @@
-using Products.Domain.Model.Entitites;
+using Products.Domain.Model.Entities;
 using Products.Interfaces.REST.Resources;
 
 namespace Products.Interfaces.REST.Transform;
