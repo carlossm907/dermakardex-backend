@@ -1,7 +1,7 @@
-
 using dermakardex_backend.Shared.Domain.Repositories;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Commands;
+using Products.Domain.Model.Entities;
 using Products.Domain.Repositoies;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
@@ -14,6 +14,7 @@ public class ProductCommandService(
     ICategoryRepository categoryRepository,
     ISupplierRepository supplierRepository,
     ILaboratoryRepository laboratoryRepository,
+    IStockEntryRepository stockEntryRepository,
     IUnitOfWork unitOfWork) : IProductCommandService
 {
     public async Task<Product?> Handle(CreateProductCommand command)
@@ -103,6 +104,32 @@ public class ProductCommandService(
 
         product.Deactivate();
         await unitOfWork.CompleteAsync();
+    }
+
+    public async Task Handle(RegisterProductEntryCommand command)
+    {
+        var product = await productRepository.FindByIdAsync(command.ProductId);
+        if (product is null) throw new ArgumentException("Product does not exist");
+
+        product.AdjustStock(command.Quantity);
+
+        product.ChangePrices(
+            new Money(command.UnitPurchasePrice),
+            product.SalePrice
+        );
+
+        var stockEntry = new StockEntry(
+        product.Id,
+        command.Quantity,
+        new Money(command.UnitPurchasePrice),
+        command.Reason,
+        command.RegisteredByUserId
+    );
+
+        await stockEntryRepository.AddAsync(stockEntry);
+
+        await unitOfWork.CompleteAsync();
+
     }
 
     private async Task ValidateRelatedAggregatesExist(

@@ -18,4 +18,7 @@ public interface IProductCommandService
     Task Handle(ActivateProductCommand command);
 
     Task Handle(DeactivateProductCommand command);
+
+    Task Handle(RegisterProductEntryCommand command);
+
 }
