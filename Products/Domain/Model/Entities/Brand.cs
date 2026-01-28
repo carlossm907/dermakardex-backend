@@ -1,4 +1,4 @@
-namespace Products.Domain.Model.Entitites;
+namespace Products.Domain.Model.Entities;
 
 public class Brand
 {

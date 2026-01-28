@@ -1,5 +1,5 @@
 using Products.Domain.Model.Commands;
-using Products.Domain.Model.Entitites;
+using Products.Domain.Model.Entities;
 
 namespace Products.Domain.Services;
 
