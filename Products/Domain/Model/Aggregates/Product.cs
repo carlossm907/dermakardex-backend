@@ -1,4 +1,5 @@
 using Products.Domain.Model.Commands;
+using Products.Domain.Model.ValueObjects;
 
 namespace Products.Domain.Model.Aggregates;
 
@@ -23,6 +24,8 @@ public class Product
     public Money SalePrice { get; private set; }
 
     public Money MaxDiscountAmount { get; private set; }
+
+    public Discount Discount { get; private set; }
 
     public int Stock { get; private set; }
 
@@ -50,7 +53,7 @@ public class Product
         SetStock(inititalStock);
         SetStockAlert(stockAlertThreshold);
 
-        ValidateDiscountRule();
+        Discount = Discount.None();
 
         IsActive = true;
 
@@ -161,19 +164,40 @@ public class Product
         SalePrice = salePrice ?? throw new ArgumentNullException(nameof(salePrice));
     }
 
+    public void SetDiscount(Discount discount)
+    {
+        var discountAmount = discount.CalculateDiscount(SalePrice);
+
+        if (discountAmount.Amount > MaxDiscountAmount.Amount)
+        {
+            throw new ArgumentException($"Discount exceeds max allowed ({MaxDiscountAmount.Amount})");
+        }
+
+        Discount = discount;
+    }
+
+    public void RemoveDiscount()
+    {
+        Discount = Discount.None();
+    }
+
+    public Money GetFinalPrice()
+    {
+        var discountAmount = Discount.CalculateDiscount(SalePrice);
+        var finalPrice = new Money(SalePrice.Amount - discountAmount.Amount);
+
+        return finalPrice;
+    }
+
     public void ChangeMaxDiscount(Money maxDiscountAmount)
     {
         MaxDiscountAmount = maxDiscountAmount ?? throw new ArgumentNullException(nameof(maxDiscountAmount));
-        ValidateDiscountRule();
-    }
+        var discountAmount = Discount.CalculateDiscount(SalePrice);
 
-    private void ValidateDiscountRule()
-    {
-        if (MaxDiscountAmount.Amount < 0)
-            throw new ArgumentException("Max discount cannot be negative");
-
-        if (MaxDiscountAmount.Amount > SalePrice.Amount)
-            throw new ArgumentException("Max discount cannot exceed sale price");
+        if (MaxDiscountAmount.Amount < discountAmount.Amount)
+        {
+            throw new ArgumentException("Current discount exceeds new max allowed");
+        }
     }
 
     public void SetStock(int stock)
