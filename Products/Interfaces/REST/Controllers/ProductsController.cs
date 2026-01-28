@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
+using Products.Domain.Model.Commands;
 using Products.Domain.Model.Queries;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;
@@ -90,5 +91,65 @@ public class ProductsController(IProductCommandService productCommandService, IP
 
         return Ok(productResource);
     }
+
+    // Discount Endpoints
+
+    [HttpPost("{productId:int}/discount")]
+    [SwaggerOperation(
+    "Apply discount to product", "Apply a discount (amount or percentage) to a product.", OperationId = "ApplyDiscountToProduct")]
+    [SwaggerResponse(204, "The discount was applied successfully.")]
+    [SwaggerResponse(404, "The product was not found.")]
+    public async Task<IActionResult> ApplyDiscountToProduct(int productId, [FromBody] ApplyDiscountResource resource)
+    {
+        var command = new ApplyDiscountToProductCommand(
+            productId,
+            resource.Type,
+            resource.Value
+        );
+
+        await productCommandService.Handle(command);
+
+        return NoContent();
+    }
+
+    [HttpDelete("{productId:int}/discount")]
+    [SwaggerOperation("Remove product discount", "Remove the current discount from a product.", OperationId = "RemoveProductDiscount")]
+    [SwaggerResponse(204, "The discount was removed successfully.")]
+    [SwaggerResponse(404, "The product was not found.")]
+    public async Task<IActionResult> RemoveDiscountFromProduct(int productId)
+    {
+        var command = new RemoveDiscountFromProductCommand(productId);
+
+        await productCommandService.Handle(command);
+
+        return NoContent();
+    }
+
+    [HttpPost("discounts")]
+    [SwaggerOperation("Apply discount to multiple products", "Apply a discount to a list of products.", OperationId = "ApplyDiscountToProducts")]
+    [SwaggerResponse(204, "The discount was applied successfully.")]
+    public async Task<IActionResult> ApplyDiscountToProducts([FromBody] ApplyDiscountToProductsCommand command)
+    {
+        await productCommandService.Handle(command);
+
+        return NoContent();
+    }
+
+    [HttpPost("discounts/all")]
+    [SwaggerOperation("Apply discount to all products", "Apply a discount to all products in the system.", OperationId = "ApplyDiscountToAllProducts")]
+    [SwaggerResponse(204, "The discount was applied successfully.")]
+    public async Task<IActionResult> ApplyDiscountToAllProducts([FromBody] ApplyDiscountResource resource)
+    {
+        var command = new ApplyDiscountToAllProductsCommand(
+            resource.Type,
+            resource.Value
+        );
+
+        await productCommandService.Handle(command);
+
+        return NoContent();
+    }
+
+
 
 }
