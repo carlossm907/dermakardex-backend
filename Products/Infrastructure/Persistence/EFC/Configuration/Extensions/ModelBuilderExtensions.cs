@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Entities;
-using Products.Domain.Model.Entities;
 
 namespace Products.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -91,6 +90,20 @@ public static class ModelBuilderExtensions
                     .HasMaxLength(3)
                     .IsRequired();
             });
+
+            // Value Object: Discount
+            product.OwnsOne(p => p.Discount, discount =>
+            {
+                discount.WithOwner().HasForeignKey("Id");
+
+                discount.Property(d => d.Type)
+                    .HasColumnName("discount_type")
+                    .IsRequired();
+
+                discount.Property(d => d.Value)
+                    .HasColumnName("discount_value")
+                    .IsRequired();
+            });
         });
 
         // Brand
@@ -153,7 +166,7 @@ public static class ModelBuilderExtensions
                 .HasMaxLength(150);
         });
 
-        // StockEntry (Product stock entries)
+        // StockEntry 
         builder.Entity<StockEntry>(entry =>
         {
             entry.ToTable("product_stock_entries");
@@ -179,7 +192,9 @@ public static class ModelBuilderExtensions
             entry.Property(e => e.RegisteredAt)
                 .IsRequired();
 
+
             // Value Object: UnitPurchasePrice
+
             entry.OwnsOne(e => e.UnitPurchasePrice, money =>
             {
                 money.WithOwner().HasForeignKey("Id");
