@@ -16,6 +16,7 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ILaboratoryRepository, LaboratoryRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
+        services.AddScoped<IStockEntryRepository, StockEntryRepository>();
         services.AddScoped<IProductCommandService, ProductCommandService>();
         services.AddScoped<IProductQueryService, ProductQueryService>();
         services.AddScoped<IBrandCommandService, BrandCommandService>();
@@ -26,6 +27,7 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ILaboratoryQueryService, LaboratoryQueryService>();
         services.AddScoped<ISupplierCommandService, SupplierCommandService>();
         services.AddScoped<ISupplierQueryService, SupplierQueryService>();
+        services.AddScoped<IStockEntryQueryService, StockEntryQueryService>();
 
         return services;
     }

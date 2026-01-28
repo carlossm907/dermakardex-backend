@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Entities;
-using Products.Domain.Model.Entitites;
+using Products.Domain.Model.Entities;
 
 namespace Products.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -151,6 +151,69 @@ public static class ModelBuilderExtensions
             supplier.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(150);
+        });
+
+        // StockEntry (Product stock entries)
+        builder.Entity<StockEntry>(entry =>
+        {
+            entry.ToTable("product_stock_entries");
+
+            entry.HasKey(e => e.Id);
+
+            entry.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+            entry.Property(e => e.ProductId)
+                .IsRequired();
+
+            entry.Property(e => e.Quantity)
+                .IsRequired();
+
+            entry.Property(e => e.Reason)
+                .IsRequired()
+                .HasMaxLength(300);
+
+            entry.Property(e => e.RegisteredByUserId)
+                .IsRequired();
+
+            entry.Property(e => e.RegisteredAt)
+                .IsRequired();
+
+            // Value Object: UnitPurchasePrice
+            entry.OwnsOne(e => e.UnitPurchasePrice, money =>
+            {
+                money.WithOwner().HasForeignKey("Id");
+
+                money.Property(m => m.Amount)
+                    .HasColumnName("unit_purchase_price_amount")
+                    .IsRequired();
+
+                money.Property(m => m.Currency)
+                    .HasColumnName("unit_purchase_price_currency")
+                    .HasMaxLength(3)
+                    .IsRequired();
+            });
+
+            // Value Object: TotalInvestment
+            entry.OwnsOne(e => e.TotalInvestment, money =>
+            {
+                money.WithOwner().HasForeignKey("Id");
+
+                money.Property(m => m.Amount)
+                    .HasColumnName("total_investment_amount")
+                    .IsRequired();
+
+                money.Property(m => m.Currency)
+                    .HasColumnName("total_investment_currency")
+                    .HasMaxLength(3)
+                    .IsRequired();
+            });
+
+            // FK a Product
+            entry.HasOne<Product>()
+                .WithMany()
+                .HasForeignKey(e => e.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }
