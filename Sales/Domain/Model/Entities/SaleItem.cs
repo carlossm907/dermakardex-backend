@@ -49,14 +49,24 @@ public class SaleItem
             throw new ArgumentException("UnitPrice cannot exceed BaseUnitPrice");
         }
 
+        if (productId <= 0)
+        {
+            throw new ArgumentException("ProductId must be greater than zero");
+        }
+
+        if (string.IsNullOrWhiteSpace(productName))
+        {
+            throw new ArgumentException("ProductName is required");
+        }
+
         ProductId = productId;
         ProductName = productName.Trim();
         Presentation = presentation;
 
         Quantity = quantity;
+        UnitPrice = unitPrice;
         BaseUnitPrice = baseUnitPrice;
         DiscountType = discountType;
-        DiscountValue = discountValue;
 
         DiscountValue = discountType == DiscountType.None ? 0 : discountValue;
 
