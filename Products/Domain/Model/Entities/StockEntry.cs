@@ -48,7 +48,7 @@ public class StockEntry
         ProductId = productId;
         Quantity = quantity;
         UnitPurchasePrice = unitPurchasePrice ?? throw new ArgumentNullException(nameof(unitPurchasePrice));
-        TotalInvestment = new Money(unitPurchasePrice.Amount * quantity);
+        TotalInvestment = unitPurchasePrice.Multiply(quantity);
         Reason = reason.Trim();
         RegisteredByUserId = registeredByUserId;
         RegisteredAt = DateTime.UtcNow;
