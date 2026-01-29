@@ -1,6 +1,6 @@
 using System.Net.Mime;
+using dermakardex_backend.Products.Domain.Model.Commands.Product;
 using Microsoft.AspNetCore.Mvc;
-using Products.Domain.Model.Commands;
 using Products.Domain.Model.Queries;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;
@@ -119,6 +119,21 @@ public class ProductsController(IProductCommandService productCommandService, IP
     public async Task<IActionResult> RemoveDiscountFromProduct(int productId)
     {
         var command = new RemoveDiscountFromProductCommand(productId);
+
+        await productCommandService.Handle(command);
+
+        return NoContent();
+    }
+
+    [HttpDelete("discounts/all")]
+    [SwaggerOperation(
+    "Remove discount from all products",
+    "Remove the current discount from all products.",
+    OperationId = "RemoveDiscountFromAllProducts")]
+    [SwaggerResponse(204, "The discount was removed from all products.")]
+    public async Task<IActionResult> RemoveDiscountFromAllProducts()
+    {
+        var command = new RemoveDiscountFromAllProductsCommand();
 
         await productCommandService.Handle(command);
 
