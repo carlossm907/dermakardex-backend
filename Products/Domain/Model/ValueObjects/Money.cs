@@ -15,4 +15,13 @@ public record Money
         Amount = decimal.Round(amount, 2);
         Currency = currency;
     }
+
+    public Money Multiply(int quantity)
+    {
+        if (quantity <= 0)
+            throw new ArgumentException("Quantity must be greater than zero");
+
+        return new Money(Amount * quantity, Currency);
+    }
+
 }
