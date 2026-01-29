@@ -1,6 +1,7 @@
+using dermakardex_backend.Products.Domain.Model.Commands.Product;
+using dermakardex_backend.Products.Domain.Model.Commands.StockEntry;
 using dermakardex_backend.Shared.Domain.Repositories;
 using Products.Domain.Model.Aggregates;
-using Products.Domain.Model.Commands;
 using Products.Domain.Model.Entities;
 using Products.Domain.Model.ValueObjects;
 using Products.Domain.Repositories;
@@ -220,6 +221,18 @@ public class ProductCommandService(
         foreach (var product in products)
         {
             product.SetDiscount(discount);
+        }
+
+        await unitOfWork.CompleteAsync();
+    }
+
+    public async Task Handle(RemoveDiscountFromAllProductsCommand command)
+    {
+        var products = await productRepository.ListAsync();
+
+        foreach (var product in products)
+        {
+            product.RemoveDiscount();
         }
 
         await unitOfWork.CompleteAsync();

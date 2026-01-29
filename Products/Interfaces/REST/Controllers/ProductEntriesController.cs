@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Products.Domain.Model.Commands;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;
 using Products.Interfaces.REST.Transform;

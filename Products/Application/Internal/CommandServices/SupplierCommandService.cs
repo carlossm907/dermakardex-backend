@@ -1,5 +1,5 @@
+using dermakardex_backend.Products.Domain.Model.Commands.Supplier;
 using dermakardex_backend.Shared.Domain.Repositories;
-using Products.Domain.Model.Commands;
 using Products.Domain.Model.Entities;
 using Products.Domain.Repositories;
 using Products.Domain.Services;

@@ -1,4 +1,4 @@
-using Products.Domain.Model.Commands;
+using dermakardex_backend.Products.Domain.Model.Commands.Brand;
 using Products.Domain.Model.Entities;
 
 namespace Products.Domain.Services;

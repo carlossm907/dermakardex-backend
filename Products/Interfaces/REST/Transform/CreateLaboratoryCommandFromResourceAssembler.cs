@@ -1,4 +1,4 @@
-using Products.Domain.Model.Commands;
+using dermakardex_backend.Products.Domain.Model.Commands.Laboratory;
 using Products.Interfaces.REST.Resources;
 
 namespace Products.Interfaces.REST.Transform;

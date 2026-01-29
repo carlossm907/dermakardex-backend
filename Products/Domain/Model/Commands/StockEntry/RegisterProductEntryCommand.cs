@@ -1,4 +1,4 @@
-namespace Products.Domain.Model.Commands;
+namespace dermakardex_backend.Products.Domain.Model.Commands.StockEntry;
 
 public record RegisterProductEntryCommand(
     int ProductId,

@@ -1,6 +1,6 @@
 using System.Net.Mime;
+using dermakardex_backend.Products.Domain.Model.Commands.Laboratory;
 using Microsoft.AspNetCore.Mvc;
-using Products.Domain.Model.Commands;
 using Products.Domain.Model.Queries;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;

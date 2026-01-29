@@ -1,5 +1,5 @@
+using dermakardex_backend.Products.Domain.Model.Commands.Product;
 using Products.Domain.Model.Aggregates;
-using Products.Domain.Model.Commands;
 using Products.Interfaces.REST.Resources;
 
 namespace Products.Interfaces.REST.Transform;

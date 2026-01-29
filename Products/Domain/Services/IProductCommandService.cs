@@ -1,5 +1,6 @@
+using dermakardex_backend.Products.Domain.Model.Commands.Product;
+using dermakardex_backend.Products.Domain.Model.Commands.StockEntry;
 using Products.Domain.Model.Aggregates;
-using Products.Domain.Model.Commands;
 
 namespace Products.Domain.Services;
 
@@ -28,5 +29,7 @@ public interface IProductCommandService
     Task Handle(ApplyDiscountToProductsCommand command);
 
     Task Handle(ApplyDiscountToAllProductsCommand command);
+
+
 
 }
