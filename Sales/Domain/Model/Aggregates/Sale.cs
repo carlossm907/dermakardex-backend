@@ -64,12 +64,22 @@ public class Sale
 
     public void AddItem(SaleItem item)
     {
+        if (item is null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+
         _items.Add(item);
         RecalculateTotal();
     }
 
     public void AddPayment(SalePayment payment)
     {
+        if (payment is null)
+        {
+            throw new ArgumentNullException(nameof(payment));
+        }
+
         _payments.Add(payment);
     }
 
