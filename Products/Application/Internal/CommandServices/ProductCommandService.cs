@@ -6,6 +6,7 @@ using Products.Domain.Model.Entities;
 using Products.Domain.Model.ValueObjects;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
+using Shared.Domain.Model.ValueObjects;
 
 namespace Products.Application.Internal.CommandServices;
 

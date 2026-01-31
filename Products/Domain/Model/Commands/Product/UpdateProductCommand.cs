@@ -1,4 +1,4 @@
-using Products.Domain.Model.Aggregates;
+using Shared.Domain.Model.ValueObjects;
 
 namespace dermakardex_backend.Products.Domain.Model.Commands.Product;
 

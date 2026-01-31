@@ -1,5 +1,6 @@
 using dermakardex_backend.Products.Domain.Model.Commands.Product;
 using Products.Domain.Model.ValueObjects;
+using Shared.Domain.Model.ValueObjects;
 
 namespace Products.Domain.Model.Aggregates;
 

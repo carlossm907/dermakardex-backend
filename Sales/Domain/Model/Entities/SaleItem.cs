@@ -1,5 +1,4 @@
-using Products.Domain.Model.Aggregates;
-using Products.Domain.Model.ValueObjects;
+using Shared.Domain.Model.ValueObjects;
 
 namespace Sales.Domain.Model.Entities;
 

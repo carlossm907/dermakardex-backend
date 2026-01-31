@@ -1,4 +1,5 @@
 using Products.Domain.Model.Aggregates;
+using Shared.Domain.Model.ValueObjects;
 
 namespace Products.Domain.Model.Entities;
 
