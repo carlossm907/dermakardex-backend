@@ -2,7 +2,7 @@ namespace Shared.Domain.Model.ValueObjects;
 
 public enum DiscountType
 {
-    None = 0,
-    Amount = 1,
-    Percentaje = 2
+    NONE = 0,
+    AMOUNT = 1,
+    PERCENTAGE = 2
 }
