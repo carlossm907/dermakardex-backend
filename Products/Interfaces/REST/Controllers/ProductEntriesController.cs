@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;
@@ -6,6 +7,7 @@ using Products.Interfaces.REST.Transform;
 
 namespace Products.Interfaces.REST.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/products/{productId:int}/entries")]
 public class ProductEntriesController : ControllerBase
