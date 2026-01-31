@@ -1,3 +1,5 @@
+using Shared.Domain.Model.ValueObjects;
+
 namespace Products.Interfaces.ACL.Dto;
 
 public record ProductForSaleDto(
@@ -7,6 +9,6 @@ public record ProductForSaleDto(
     decimal BaseUnitPrice,
     decimal FinalUnitPrice,
     decimal DiscountValue,
-    string DiscountType,
+    DiscountType DiscountType,
     int AvailableStock
 );
