@@ -1,9 +1,11 @@
+using IAM.Application.ACL.Services;
 using IAM.Application.Internal.OutboundService;
 using IAM.Application.Internal.QueryService;
 using IAM.Application.Internal.UserCommandService;
 using IAM.Domain.Repositories;
 using IAM.Domain.Services;
 using IAM.Infrastructure.Persistence.EF.Configuration.Repositories;
+using IAM.Interfaces.ACL;
 using Infrastructure.Hashing.BCrypt.Services;
 using Infrastructure.Tokens.JWT.Configuration;
 using Infrastructure.Tokens.JWT.Services;
@@ -25,5 +27,8 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IUserQueryService, UserQueryService>();
         builder.Services.AddScoped<ITokenService, TokenService>();
         builder.Services.AddScoped<IHashingService, HashingService>();
+
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
     }
 }
