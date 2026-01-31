@@ -29,7 +29,7 @@ public class ProductsContextFacade : IProductsContextFacade
             product.SalePrice.Amount,
             product.GetFinalPrice().Amount,
             product.Discount.Value,
-            product.Discount.Type.ToString(),
+            product.Discount.Type,
             product.Stock
         );
     }
