@@ -1,8 +1,10 @@
+using Products.Application.ACL;
 using Products.Application.Internal.CommandServices;
 using Products.Application.Internal.QueryServices;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
 using Products.Infrastructure.Persistence.EFC.Repositories;
+using Products.Interfaces.ACL;
 
 namespace Products.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
@@ -27,6 +29,7 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ISupplierCommandService, SupplierCommandService>();
         services.AddScoped<ISupplierQueryService, SupplierQueryService>();
         services.AddScoped<IStockEntryQueryService, StockEntryQueryService>();
+        services.AddScoped<IProductsContextFacade, ProductsContextFacade>();
 
         return services;
     }
