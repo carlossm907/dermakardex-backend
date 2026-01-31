@@ -142,13 +142,13 @@ public class ProductCommandService(
 
         Discount discount;
 
-        if (command.Type == DiscountType.Amount)
+        if (command.Type == DiscountType.AMOUNT)
         {
             discount = Discount.Amount(command.Value);
         }
-        else if (command.Type == DiscountType.Percentaje)
+        else if (command.Type == DiscountType.PERCENTAGE)
         {
-            discount = Discount.Percentaje(command.Value);
+            discount = Discount.Percentage(command.Value);
         }
         else
         {
@@ -175,13 +175,13 @@ public class ProductCommandService(
     {
         Discount discount;
 
-        if (command.Type == DiscountType.Amount)
+        if (command.Type == DiscountType.AMOUNT)
         {
             discount = Discount.Amount(command.Value);
         }
-        else if (command.Type == DiscountType.Percentaje)
+        else if (command.Type == DiscountType.PERCENTAGE)
         {
-            discount = Discount.Percentaje(command.Value);
+            discount = Discount.Percentage(command.Value);
         }
         else
         {
@@ -204,23 +204,23 @@ public class ProductCommandService(
     {
         var products = await productRepository.ListAsync();
 
-        Discount discount;
-
-        if (command.Type == DiscountType.Amount)
-        {
-            discount = Discount.Amount(command.Value);
-        }
-        else if (command.Type == DiscountType.Percentaje)
-        {
-            discount = Discount.Percentaje(command.Value);
-        }
-        else
-        {
-            discount = Discount.None();
-        }
-
         foreach (var product in products)
         {
+            Discount discount;
+
+            if (command.Type == DiscountType.AMOUNT)
+            {
+                discount = Discount.Amount(command.Value);
+            }
+            else if (command.Type == DiscountType.PERCENTAGE)
+            {
+                discount = Discount.Percentage(command.Value);
+            }
+            else
+            {
+                discount = Discount.None();
+            }
+
             product.SetDiscount(discount);
         }
 
