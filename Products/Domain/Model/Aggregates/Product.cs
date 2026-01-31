@@ -34,7 +34,11 @@ public class Product
 
     public bool IsActive { get; private set; }
 
-    protected Product() { }
+    protected Product()
+    {
+        Discount = Discount.None();
+
+    }
 
     public Product(string name, int brandId, int laboratoryId, int categoryId, int supplierId, ProductPresentation presentation, Money purchasePrice, Money salePrice, Money maxDiscountAmount, int inititalStock, int stockAlertThreshold)
     {
