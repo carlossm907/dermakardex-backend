@@ -67,7 +67,7 @@ public class SaleItem
         BaseUnitPrice = baseUnitPrice;
         DiscountType = discountType;
 
-        DiscountValue = discountType == DiscountType.None ? 0 : discountValue;
+        DiscountValue = discountType == DiscountType.NONE ? 0 : discountValue;
 
         LineTotal = unitPrice.Multiply(quantity);
 
