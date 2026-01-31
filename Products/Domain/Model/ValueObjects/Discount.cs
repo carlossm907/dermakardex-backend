@@ -4,8 +4,8 @@ namespace Products.Domain.Model.ValueObjects;
 
 public class Discount
 {
-    public DiscountType Type { get; }
-    public decimal Value { get; }
+    public DiscountType Type { get; private set; }
+    public decimal Value { get; private set; }
 
     protected Discount() { }
 
@@ -18,17 +18,17 @@ public class Discount
 
     public static Discount None()
     {
-        return new(DiscountType.None, 0);
+        return new(DiscountType.NONE, 0);
     }
 
     public static Discount Amount(decimal amount)
     {
-        return new(DiscountType.Amount, amount);
+        return new(DiscountType.AMOUNT, amount);
     }
 
-    public static Discount Percentaje(decimal percentage)
+    public static Discount Percentage(decimal percentage)
     {
-        return new(DiscountType.Percentaje, percentage);
+        return new(DiscountType.PERCENTAGE, percentage);
     }
 
     private void Validate()
@@ -38,7 +38,7 @@ public class Discount
             throw new ArgumentException("Discount canot be less than 0");
         }
 
-        if (Type == DiscountType.Percentaje && Value > 100)
+        if (Type == DiscountType.PERCENTAGE && Value > 100)
         {
             throw new ArgumentException("Percentage discount cannot exceed 100%");
         }
@@ -48,9 +48,9 @@ public class Discount
     {
         switch (Type)
         {
-            case DiscountType.Amount:
+            case DiscountType.AMOUNT:
                 return new Money(Value);
-            case DiscountType.Percentaje:
+            case DiscountType.PERCENTAGE:
                 return new Money(salePrice.Amount * (Value / 100m));
             default:
                 return new Money(0);
