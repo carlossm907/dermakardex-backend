@@ -2,6 +2,7 @@ using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using IAM.Infrastructure.Persistence.EF.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Products.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using Sales.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 namespace dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -19,6 +20,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.ApplyIamConfiguration();
 
         builder.ApplyProductsConfiguration();
+
+        builder.ApplySalesConfiguration();
 
         builder.UseSnakeCaseNamingConvention();
     }
