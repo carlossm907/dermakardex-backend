@@ -21,6 +21,10 @@ public class Sale
     private readonly List<SaleItem> _items = new();
     private readonly List<SalePayment> _payments = new();
 
+    public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
+
+    public IReadOnlyCollection<SalePayment> Payments => _payments.AsReadOnly();
+
     protected Sale()
     {
         TicketNumber = string.Empty;
