@@ -22,6 +22,7 @@ public static class ProductResourceFromEntityAssembler
             product.Discount.Type,
             product.Discount.Value,
             product.Stock,
+            product.StockAlertThreshold,
             product.IsActive
         );
     }

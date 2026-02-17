@@ -18,5 +18,6 @@ public record ProductResource(
     DiscountType DiscountType,
     decimal DiscountValue,
     int Stock,
+    int StockAlertThreshold,
     bool IsActive
 );
