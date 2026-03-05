@@ -1,6 +1,7 @@
 namespace Products.Interfaces.REST.Resources;
 
 public record CreateProductResource(
+    string Code,
     string Name,
     int BrandId,
     int LaboratoryId,

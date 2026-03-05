@@ -1,6 +1,7 @@
 namespace Products.Interfaces.REST.Resources;
 
 public record UpdateProductResource(
+    string Code,
     string Name,
     int BrandId,
     int LaboratoryId,
