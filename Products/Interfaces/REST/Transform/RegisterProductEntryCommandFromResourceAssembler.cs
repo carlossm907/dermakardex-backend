@@ -7,16 +7,15 @@ public static class RegisterProductEntryCommandFromResourceAssembler
 {
     public static RegisterProductEntryCommand ToCommandFromResource(
         int productId,
-        int registeredByUserId,
         CreateStockEntryResource resource
     )
     {
         return new RegisterProductEntryCommand(
             productId,
             resource.Quantity,
+            resource.ExpirationDate,
             resource.UnitPurchasePrice,
-            resource.Reason,
-            registeredByUserId
+            resource.Reason
         );
     }
 }

@@ -23,7 +23,7 @@ public class ProductEntriesReadController : ControllerBase
         var entries = await stockEntryQueryService.Handle(query);
 
         var resources = entries.Select(e =>
-            StockEntryResourceFromEntityAssembler.ToResourceFromEntity(e, string.Empty));
+            StockEntryResourceFromEntityAssembler.ToResourceFromEntity(e));
 
         return Ok(resources);
     }

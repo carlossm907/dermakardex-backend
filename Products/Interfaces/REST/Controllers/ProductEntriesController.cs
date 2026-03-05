@@ -22,9 +22,8 @@ public class ProductEntriesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RegisterEntry(int productId, [FromBody] CreateStockEntryResource resource)
     {
-        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)!.Value);
 
-        var command = RegisterProductEntryCommandFromResourceAssembler.ToCommandFromResource(productId, userId, resource);
+        var command = RegisterProductEntryCommandFromResourceAssembler.ToCommandFromResource(productId, resource);
 
         await productCommandService.Handle(command);
 
