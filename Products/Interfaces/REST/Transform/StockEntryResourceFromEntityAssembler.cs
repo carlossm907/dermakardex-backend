@@ -6,19 +6,19 @@ namespace Products.Interfaces.REST.Transform;
 public static class StockEntryResourceFromEntityAssembler
 {
     public static StockEntryResource ToResourceFromEntity(
-        StockEntry entry,
-        string registeredByUserName
+        StockEntry entry
     )
     {
         return new StockEntryResource(
             entry.Id,
             entry.ProductId,
+            entry.ProductName,
             entry.Quantity,
+            entry.ExpirationDate,
             entry.UnitPurchasePrice.Amount,
             entry.TotalInvestment.Amount,
             entry.Reason,
-            entry.RegisteredByUserId,
-            registeredByUserName,
+            entry.UserFullName,
             entry.RegisteredAt
         );
     }

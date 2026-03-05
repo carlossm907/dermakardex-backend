@@ -3,11 +3,12 @@ namespace Products.Interfaces.REST.Resources;
 public record StockEntryResource(
     int Id,
     int ProductId,
+    string ProductName,
     int Quantity,
+    DateOnly ExpirationDate,
     decimal UnitPurchasePrice,
     decimal TotalInvestment,
     string Reason,
-    int RegisteredByUserId,
-    string RegisteredByUserName,
+    string UserFullName,
     DateTime RegisteredAt
 );
