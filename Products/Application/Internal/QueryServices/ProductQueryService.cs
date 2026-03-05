@@ -21,4 +21,9 @@ public class ProductQueryService(IProductRepository productRepository) : IProduc
     {
         return await productRepository.FindLowStockAsync();
     }
+
+    public async Task<Product?> Handle(GetProductByCodeQuery query)
+    {
+        return await productRepository.FindByCodeAsync(query.Code);
+    }
 }

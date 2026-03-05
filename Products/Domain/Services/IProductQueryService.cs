@@ -11,4 +11,6 @@ public interface IProductQueryService
     Task<IEnumerable<Product>> Handle(ListProductsQuery query);
 
     Task<IEnumerable<Product>> Handle(GetLowStockProductsQuery query);
+
+    Task<Product?> Handle(GetProductByCodeQuery query);
 }

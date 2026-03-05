@@ -11,5 +11,6 @@ public interface IProductRepository : IBaseRepository<Product>
 
     Task<IEnumerable<Product>> FindLowStockAsync();
 
+    Task<Product?> FindByCodeAsync(string Code);
 
 }

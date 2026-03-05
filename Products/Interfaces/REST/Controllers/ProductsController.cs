@@ -57,6 +57,22 @@ public class ProductsController(IProductCommandService productCommandService, IP
         return Ok(resources);
     }
 
+    [HttpGet("{code}")]
+    [SwaggerOperation("Get Product by Code", "Get a product by its code", OperationId = "GetProductByCode")]
+    [SwaggerResponse(200, "The product was found and returned.", typeof(ProductResource))]
+    [SwaggerResponse(404, "The product was not found.")]
+    public async Task<IActionResult> GetProductByCode(string code)
+    {
+        var getProductByCodeQuery = new GetProductByCodeQuery(code);
+        var product = await productQueryService.Handle(getProductByCodeQuery);
+
+        if (product is null) return NotFound();
+
+        var productResource = ProductResourceFromEntityAssembler.ToResourceFromEntity(product);
+
+        return Ok(productResource);
+    }
+
     [HttpPost]
     [SwaggerOperation("Create product", "Create a new product.", OperationId = "CreateProduct")]
     [SwaggerResponse(201, "The product was created.", typeof(ProductResource))]
