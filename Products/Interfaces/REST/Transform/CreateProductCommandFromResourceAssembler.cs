@@ -9,6 +9,7 @@ public static class CreateProductCommandFromResourceAssembler
     public static CreateProductCommand ToCommandFromResource(CreateProductResource resource)
     {
         return new CreateProductCommand(
+            resource.Code,
             resource.Name,
             resource.BrandId,
             resource.LaboratoryId,
