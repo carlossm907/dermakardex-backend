@@ -44,6 +44,13 @@ public class Discount
         }
     }
 
+    public void Update(DiscountType type, decimal value)
+    {
+        Type = type;
+        Value = value;
+        Validate();
+    }
+
     public Money CalculateDiscount(Money salePrice)
     {
         switch (Type)
