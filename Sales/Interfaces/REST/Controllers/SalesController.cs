@@ -27,7 +27,7 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
         var getSaleByIdQuery = new GetSaleByIdQuery(saleId);
         var sale = await saleQueryService.Handle(getSaleByIdQuery);
         if (sale is null) return NotFound();
-        var saleResource = SaleResourceFromEntityAssembler.ToResourceFromEntity(sale);
+        var saleResource = SaleDetailResourceFromEntityAssembler.ToResourceFromEntity(sale);
 
         return Ok(saleResource);
     }
@@ -90,7 +90,7 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
         var sale = await saleCommandService.Handle(registerSaleCommand);
         if (sale is null) return BadRequest();
 
-        var saleResource = SaleResourceFromEntityAssembler.ToResourceFromEntity(sale);
+        var saleResource = SaleDetailResourceFromEntityAssembler.ToResourceFromEntity(sale);
         return CreatedAtAction(nameof(GetSaleById), new { saleId = sale.Id }, saleResource);
     }
 }

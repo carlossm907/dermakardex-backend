@@ -12,4 +12,6 @@ public interface ISaleRepository : IBaseRepository<Sale>
     Task<IEnumerable<Sale>> FindByProductIdAsync(int productId);
     Task<IEnumerable<Sale>> FindByDayAsync(DateOnly day);
     Task<IEnumerable<Sale>> FindByMonthAsync(int year, int month);
+    Task<Sale?> FindByIdWithDetailsAsync(int saleId);
+
 }

@@ -33,6 +33,14 @@ public class SaleRepository(AppDbContext context) : BaseRepository<Sale>(context
             .ToListAsync();
     }
 
+    public async Task<Sale?> FindByIdWithDetailsAsync(int saleId)
+    {
+        return await Context.Set<Sale>()
+        .Include(s => s.Items)
+        .Include(s => s.Payments)
+        .FirstOrDefaultAsync(s => s.Id == saleId);
+    }
+
     public async Task<IEnumerable<Sale>> FindByMonthAsync(int year, int month)
     {
         return await Context.Set<Sale>()

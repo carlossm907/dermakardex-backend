@@ -39,6 +39,6 @@ public class SaleQueryService(ISaleRepository saleRepository) : ISaleQueryServic
 
     public async Task<Sale?> Handle(GetSaleByIdQuery query)
     {
-        return await saleRepository.FindByIdAsync(query.SaleId);
+        return await saleRepository.FindByIdWithDetailsAsync(query.SaleId);
     }
 }
