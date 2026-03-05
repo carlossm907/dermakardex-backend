@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 public static class WebApplicationExtensions
@@ -6,6 +8,6 @@ public static class WebApplicationExtensions
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     }
 }
