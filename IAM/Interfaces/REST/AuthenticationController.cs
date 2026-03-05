@@ -31,6 +31,7 @@ public class AuthenticationController(IUserCommandService userCommandService) : 
         return Ok(resource);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost("sign-up")]
     [AllowAnonymous]
     [SwaggerOperation(
