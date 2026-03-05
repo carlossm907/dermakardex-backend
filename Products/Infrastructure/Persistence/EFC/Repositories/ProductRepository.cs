@@ -8,6 +8,15 @@ namespace Products.Infrastructure.Persistence.EFC.Repositories;
 
 public class ProductRepository(AppDbContext context) : BaseRepository<Product>(context), IProductRepository
 {
+    public async Task<Product?> FindByCodeAsync(string Code)
+    {
+        if (string.IsNullOrWhiteSpace(Code))
+            return null;
+
+        return await Context.Set<Product>()
+            .FirstOrDefaultAsync(p => p.Code == Code);
+    }
+
     public async Task<IEnumerable<Product>> FindLowStockAsync()
 
         => await Context.Set<Product>()

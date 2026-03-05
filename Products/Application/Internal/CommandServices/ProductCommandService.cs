@@ -1,6 +1,7 @@
 using dermakardex_backend.Products.Domain.Model.Commands.Product;
 using dermakardex_backend.Products.Domain.Model.Commands.StockEntry;
 using dermakardex_backend.Shared.Domain.Repositories;
+using IAM.Interfaces.ACL;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Entities;
 using Products.Domain.Model.ValueObjects;
@@ -17,6 +18,7 @@ public class ProductCommandService(
     ISupplierRepository supplierRepository,
     ILaboratoryRepository laboratoryRepository,
     IStockEntryRepository stockEntryRepository,
+    IIamContextFacade iamContextFacade,
     IUnitOfWork unitOfWork) : IProductCommandService
 {
     public async Task<Product?> Handle(CreateProductCommand command)
@@ -42,6 +44,7 @@ public class ProductCommandService(
         if (product is null) return null;
 
         product.Update(
+        command.Code,
         command.Name,
         command.BrandId,
         command.LaboratoryId,
@@ -110,6 +113,8 @@ public class ProductCommandService(
 
     public async Task Handle(RegisterProductEntryCommand command)
     {
+        var userFullName = iamContextFacade.GetCurrentUserFullName();
+
         var product = await productRepository.FindByIdAsync(command.ProductId);
         if (product is null) throw new ArgumentException("Product does not exist");
 
@@ -122,10 +127,13 @@ public class ProductCommandService(
 
         var stockEntry = new StockEntry(
         product.Id,
+        product.Name,
         command.Quantity,
+        command.ExpirationDate,
         new Money(command.UnitPurchasePrice),
         command.Reason,
-        command.RegisteredByUserId
+        userFullName
+
     );
 
         await stockEntryRepository.AddAsync(stockEntry);
@@ -191,12 +199,17 @@ public class ProductCommandService(
         foreach (var productId in command.ProductIds)
         {
             var product = await productRepository.FindByIdAsync(productId);
-            if (product is null)
-                continue;
+            if (product is null) continue;
 
-            product.SetDiscount(discount);
+            var disc =
+                command.Type == DiscountType.AMOUNT
+                    ? Discount.Amount(command.Value)
+                    : command.Type == DiscountType.PERCENTAGE
+                        ? Discount.Percentage(command.Value)
+                        : Discount.None();
+
+            product.SetDiscount(disc);
         }
-
         await unitOfWork.CompleteAsync();
     }
 

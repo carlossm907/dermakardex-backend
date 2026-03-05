@@ -8,6 +8,8 @@ public class Product
 {
     public int Id { get; private set; }
 
+    public string Code { get; private set; }
+
     public string Name { get; private set; }
 
     public int BrandId { get; private set; }
@@ -40,10 +42,11 @@ public class Product
 
     }
 
-    public Product(string name, int brandId, int laboratoryId, int categoryId, int supplierId, ProductPresentation presentation, Money purchasePrice, Money salePrice, Money maxDiscountAmount, int inititalStock, int stockAlertThreshold)
+    public Product(string code, string name, int brandId, int laboratoryId, int categoryId, int supplierId, ProductPresentation presentation, Money purchasePrice, Money salePrice, Money maxDiscountAmount, int inititalStock, int stockAlertThreshold)
     {
         SetName(name);
 
+        Code = code;
         BrandId = brandId;
         LaboratoryId = laboratoryId;
         CategoryId = categoryId;
@@ -66,6 +69,7 @@ public class Product
 
     public Product(CreateProductCommand command)
     : this(
+        command.Code,
         command.Name,
         command.BrandId,
         command.LaboratoryId,
@@ -83,6 +87,7 @@ public class Product
     }
 
     public void Update(
+    string code,
     string name,
     int brandId,
     int laboratoryId,
@@ -98,6 +103,7 @@ public class Product
     {
         SetName(name);
 
+        ChangeCode(code);
         ChangeBrand(brandId);
         ChangeLaboratory(laboratoryId);
         ChangeCategory(categoryId);
@@ -112,6 +118,16 @@ public class Product
             Activate();
         else
             Deactivate();
+    }
+
+    public void ChangeCode(string code)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            throw new ArgumentException("Product code cannot be empty");
+        }
+
+        Code = code.Trim();
     }
 
 
@@ -178,7 +194,7 @@ public class Product
             throw new ArgumentException($"Discount exceeds max allowed ({MaxDiscountAmount.Amount})");
         }
 
-        Discount = discount;
+        Discount.Update(discount.Type, discount.Value);
     }
 
     public void RemoveDiscount()

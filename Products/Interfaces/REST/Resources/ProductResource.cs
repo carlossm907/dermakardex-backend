@@ -5,6 +5,7 @@ namespace Products.Interfaces.REST.Resources;
 
 public record ProductResource(
     int Id,
+    string Code,
     string Name,
     int BrandId,
     int CategoryId,

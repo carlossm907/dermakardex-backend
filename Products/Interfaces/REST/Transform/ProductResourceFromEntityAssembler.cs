@@ -9,6 +9,7 @@ public static class ProductResourceFromEntityAssembler
     {
         return new ProductResource(
             product.Id,
+            product.Code,
             product.Name,
             product.BrandId,
             product.CategoryId,

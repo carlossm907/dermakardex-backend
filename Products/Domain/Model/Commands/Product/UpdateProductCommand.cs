@@ -4,6 +4,7 @@ namespace dermakardex_backend.Products.Domain.Model.Commands.Product;
 
 public record UpdateProductCommand(
     int ProductId,
+    string Code,
     string Name,
     int BrandId,
     int LaboratoryId,

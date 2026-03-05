@@ -3,6 +3,7 @@ using Shared.Domain.Model.ValueObjects;
 namespace dermakardex_backend.Products.Domain.Model.Commands.Product;
 
 public record CreateProductCommand(
+    string Code,
     string Name,
     int BrandId,
     int LaboratoryId,

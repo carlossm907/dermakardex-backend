@@ -12,6 +12,7 @@ public static class UpdateProductCommandFromResourceAssembler
     {
         return new UpdateProductCommand(
             productId,
+            resource.Code,
             resource.Name,
             resource.BrandId,
             resource.LaboratoryId,
