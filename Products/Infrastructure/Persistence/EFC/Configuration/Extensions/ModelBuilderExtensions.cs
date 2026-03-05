@@ -18,6 +18,13 @@ public static class ModelBuilderExtensions
             product.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
 
+            product.Property(p => p.Code)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            product.HasIndex(p => p.Code)
+                .IsUnique();
+
             product.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(200);
@@ -104,6 +111,9 @@ public static class ModelBuilderExtensions
                     .HasColumnName("discount_value")
                     .IsRequired();
             });
+
+            product.Navigation(p => p.Discount)
+            .IsRequired();
         });
 
         // Brand
@@ -179,18 +189,28 @@ public static class ModelBuilderExtensions
             entry.Property(e => e.ProductId)
                 .IsRequired();
 
+            entry.Property(e => e.ProductName)
+                .IsRequired()
+                .HasMaxLength(200);
+
             entry.Property(e => e.Quantity)
+                .IsRequired();
+
+            entry.Property(e => e.ExpirationDate)
+                .HasColumnType("date")
                 .IsRequired();
 
             entry.Property(e => e.Reason)
                 .IsRequired()
                 .HasMaxLength(300);
 
-            entry.Property(e => e.RegisteredByUserId)
-                .IsRequired();
+            entry.Property(e => e.UserFullName)
+                .IsRequired()
+                .HasMaxLength(200);
 
             entry.Property(e => e.RegisteredAt)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValueSql("now()");
 
 
             // Value Object: UnitPurchasePrice
