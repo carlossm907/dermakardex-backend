@@ -11,6 +11,7 @@ public static class SaleResourceFromEntityAssembler
             sale.Id,
             sale.TicketNumber,
             sale.CustomerFullName,
+            sale.SellerFullName,
             sale.SaleDate,
             sale.SaleTime,
             sale.Total.Amount,
