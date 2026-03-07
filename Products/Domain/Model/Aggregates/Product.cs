@@ -1,4 +1,5 @@
 using dermakardex_backend.Products.Domain.Model.Commands.Product;
+using Products.Domain.Model.Entities;
 using Products.Domain.Model.ValueObjects;
 using Shared.Domain.Model.ValueObjects;
 
@@ -29,6 +30,9 @@ public class Product
     public Money MaxDiscountAmount { get; private set; }
 
     public Discount Discount { get; private set; }
+
+    public readonly List<ProductDiscount> _scheduledDiscounts = new();
+    public IReadOnlyCollection<ProductDiscount> ScheduledDiscounts => _scheduledDiscounts.AsReadOnly();
 
     public int Stock { get; private set; }
 
