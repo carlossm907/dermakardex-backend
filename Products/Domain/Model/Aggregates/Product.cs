@@ -31,9 +31,6 @@ public class Product
 
     public Discount Discount { get; private set; }
 
-    public readonly List<ProductDiscount> _scheduledDiscounts = new();
-    public IReadOnlyCollection<ProductDiscount> ScheduledDiscounts => _scheduledDiscounts.AsReadOnly();
-
     public int Stock { get; private set; }
 
     public int StockAlertThreshold { get; private set; }
@@ -199,6 +196,16 @@ public class Product
         }
 
         Discount.Update(discount.Type, discount.Value);
+    }
+
+    public void ValidateDiscount(Discount discount)
+    {
+        var discountAmount = discount.CalculateDiscount(SalePrice);
+
+        if (discountAmount.Amount > MaxDiscountAmount.Amount)
+        {
+            throw new ArgumentException($"Discount exceeds max allowed ({MaxDiscountAmount.Amount})");
+        }
     }
 
     public void RemoveDiscount()
