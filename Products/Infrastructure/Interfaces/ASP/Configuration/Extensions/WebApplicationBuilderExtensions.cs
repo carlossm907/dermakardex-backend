@@ -30,6 +30,9 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ISupplierQueryService, SupplierQueryService>();
         services.AddScoped<IStockEntryQueryService, StockEntryQueryService>();
         services.AddScoped<IProductsContextFacade, ProductsContextFacade>();
+        services.AddScoped<IProductDiscountCommandService, ProductDiscountCommandService>();
+        services.AddScoped<IProductDiscountQueryService, ProductDiscountQueryService>();
+        services.AddScoped<IProductDiscountRepository, ProductDiscountRepository>();
 
         return services;
     }
