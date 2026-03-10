@@ -70,6 +70,23 @@ public class ProductDiscountsController(
         return Ok(resources);
     }
 
+    [HttpGet("products")]
+    [SwaggerOperation(
+    Summary = "Get products with scheduled discounts",
+    Description = "Returns products that have scheduled discounts",
+    OperationId = "GetProductsWithScheduledDiscounts"
+    )]
+    public async Task<IActionResult> GetProductsWithScheduledDiscounts()
+    {
+        var query = new GetProductsWithScheduledDiscountsQuery();
+
+        var products = await productDiscountQueryService.Handle(query);
+
+        var resources = products.Select(ProductResourceFromEntityAssembler.ToResourceFromEntity);
+
+        return Ok(resources);
+    }
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Schedule discount to product",
@@ -85,6 +102,51 @@ public class ProductDiscountsController(
         var response = ProductDiscountResourceFromEntityAssembler.ToResourceFromEntity(discount);
 
         return CreatedAtAction(nameof(GetAllScheduledDiscounts), response);
+    }
+
+    [HttpPost("bulk")]
+    [SwaggerOperation(
+    Summary = "Schedule discount to multiple products",
+    Description = "Creates a scheduled discount for multiple products",
+    OperationId = "ScheduleDiscountToProducts"
+    )]
+    public async Task<IActionResult> ScheduleDiscountToProducts([FromBody] ScheduleDiscountToProductsResource resource)
+    {
+        var command = ScheduleDiscountToProductsCommandFromResourceAssembler.ToCommandFromResource(resource);
+
+        await productDiscountCommandService.Handle(command);
+
+        return Ok();
+    }
+
+    [HttpPost("all")]
+    [SwaggerOperation(
+    Summary = "Schedule discount to all products",
+    Description = "Creates a scheduled discount for all products",
+    OperationId = "ScheduleDiscountToAllProducts"
+    )]
+    public async Task<IActionResult> ScheduleDiscountToAllProducts([FromBody] ScheduleDiscountToAllProductsResource resource)
+    {
+        var command = ScheduleDiscountToAllProductsCommandFromResourceAssembler.ToCommandFromResource(resource);
+
+        await productDiscountCommandService.Handle(command);
+
+        return Ok();
+    }
+
+    [HttpPost("cleanup-expired")]
+    [SwaggerOperation(
+    Summary = "Cleanup expired scheduled discounts",
+    Description = "Disables expired scheduled discounts",
+    OperationId = "CleanupExpiredScheduledDiscounts"
+    )]
+    public async Task<IActionResult> CleanupExpiredDiscounts()
+    {
+        var command = new CleanupExpiredProductDiscountsCommand();
+
+        await productDiscountCommandService.Handle(command);
+
+        return NoContent();
     }
 
     [HttpPut("{discountId:int}")]
