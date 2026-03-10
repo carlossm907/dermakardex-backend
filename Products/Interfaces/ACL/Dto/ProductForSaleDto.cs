@@ -8,7 +8,7 @@ public record ProductForSaleDto(
     int PresentationUnits,
     decimal BaseUnitPrice,
     decimal FinalUnitPrice,
-    decimal DiscountValue,
     DiscountType DiscountType,
+    decimal DiscountValue,
     int AvailableStock
 );
