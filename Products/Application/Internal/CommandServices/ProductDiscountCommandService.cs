@@ -38,6 +38,10 @@ public class ProductDiscountCommandService(
             command.EndsAt
         );
 
+        await productDiscountRepository.AddAsync(productDiscount);
+
+        await unitOfWork.CompleteAsync();
+
         return productDiscount;
     }
 
