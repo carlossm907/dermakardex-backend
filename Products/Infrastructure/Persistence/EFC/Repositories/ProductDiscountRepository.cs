@@ -18,6 +18,20 @@ public class ProductDiscountRepository(AppDbContext context) : BaseRepository<Pr
                 d.EndsAt > startsAt);
     }
 
+    public async Task<ProductDiscount?> FindActiveDiscountByProductIdAsync(int productId)
+    {
+        var now = DateTime.UtcNow;
+
+        return await Context.Set<ProductDiscount>()
+            .Where(d =>
+                d.ProductId == productId &&
+                d.IsActive &&
+                d.StartsAt <= now &&
+                d.EndsAt >= now)
+            .OrderByDescending(d => d.StartsAt)
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<IEnumerable<ProductDiscount>> FindActiveDiscountsAsync()
     {
         var now = DateTime.UtcNow;

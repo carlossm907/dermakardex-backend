@@ -14,6 +14,8 @@ public interface IProductDiscountRepository : IBaseRepository<ProductDiscount>
 
     Task<IEnumerable<ProductDiscount>> FindAllAsync();
 
+    Task<ProductDiscount?> FindActiveDiscountByProductIdAsync(int productId);
+
     Task<bool> ExistsOverlapAsync(int productId, DateTime startsAt, DateTime endsAt);
 
 }
