@@ -3,7 +3,8 @@ using Shared.Domain.Model.ValueObjects;
 namespace Products.Domain.Model.Commands.ProductDiscount;
 
 public record ScheduleDiscountToProductsCommand(
-    List<int> ProductIds,
+    IEnumerable<int> ProductIds,
+    string Name,
     DiscountType Type,
     decimal Value,
     DateTime StartsAt,

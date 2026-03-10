@@ -33,6 +33,7 @@ public class ProductDiscountCommandService(
 
         var productDiscount = new ProductDiscount(
             command.ProductId,
+            command.Name,
             discount,
             command.StartsAt,
             command.EndsAt
@@ -64,6 +65,7 @@ public class ProductDiscountCommandService(
 
             var productDiscount = new ProductDiscount(
                 productId,
+                command.Name,
                 discount,
                 command.StartsAt,
                 command.EndsAt
@@ -93,6 +95,7 @@ public class ProductDiscountCommandService(
 
             var productDiscount = new ProductDiscount(
                 product.Id,
+                command.Name,
                 discount,
                 command.StartsAt,
                 command.EndsAt
@@ -120,7 +123,7 @@ public class ProductDiscountCommandService(
 
         var newDiscount = CreateDiscount(command.Type, command.Value);
 
-        discount.Update(newDiscount, command.StartsAt, command.EndsAt);
+        discount.Update(command.Name, newDiscount, command.StartsAt, command.EndsAt);
 
         productDiscountRepository.Update(discount);
 

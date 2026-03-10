@@ -7,6 +7,7 @@ public class ProductDiscount
 {
     public int Id { get; private set; }
     public int ProductId { get; private set; }
+    public string Name { get; private set; }
     public Discount Discount { get; private set; }
     public DateTime StartsAt { get; private set; }
     public DateTime EndsAt { get; private set; }
@@ -17,6 +18,7 @@ public class ProductDiscount
 
     public ProductDiscount(
         int productId,
+        string name,
         Discount discount,
         DateTime startsAt,
         DateTime endsAt
@@ -27,12 +29,15 @@ public class ProductDiscount
             throw new ArgumentException("ProductId must be valid");
         }
 
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Discount name is required");
+
         if (endsAt <= startsAt)
         {
             throw new ArgumentException("End date must be greater than start date");
         }
 
         ProductId = productId;
+        Name = name.Trim();
         Discount = discount ?? throw new ArgumentNullException(nameof(discount));
         StartsAt = startsAt;
         EndsAt = endsAt;
@@ -57,13 +62,13 @@ public class ProductDiscount
         IsActive = true;
     }
 
-    public void Update(Discount discount, DateTime startsAt, DateTime endsAt)
+    public void Update(string name, Discount discount, DateTime startsAt, DateTime endsAt)
     {
         if (endsAt <= startsAt)
         {
             throw new ArgumentException("End date must be greater than start date");
         }
-
+        Name = name;
         Discount = discount ?? throw new ArgumentNullException(nameof(discount));
         StartsAt = startsAt;
         EndsAt = endsAt;
