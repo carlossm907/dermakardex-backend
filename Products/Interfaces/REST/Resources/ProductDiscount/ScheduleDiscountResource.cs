@@ -1,6 +1,8 @@
 namespace Products.Interfaces.REST.Resources;
 
-public record UpdateScheduledDiscountResource(
+public record ScheduleDiscountResource(
+    int ProductId,
+    string Name,
     string Type,
     decimal Value,
     DateTime StartsAt,
