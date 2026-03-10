@@ -10,6 +10,7 @@ public static class ProductDiscountResourceFromEntityAssembler
         return new ProductDiscountResource(
             entity.Id,
             entity.ProductId,
+            entity.Name,
             entity.Discount.Type.ToString(),
             entity.Discount.Value,
             entity.StartsAt,

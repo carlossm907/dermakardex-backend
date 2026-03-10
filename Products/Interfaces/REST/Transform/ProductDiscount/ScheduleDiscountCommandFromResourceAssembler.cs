@@ -4,13 +4,14 @@ using Shared.Domain.Model.ValueObjects;
 
 namespace Products.Interfaces.REST.Transform;
 
-public static class UpdateScheduledDiscountCommandFromResourceAssembler
+public static class ScheduleDiscountCommandFromResourceAssembler
 {
-    public static UpdateScheduledDiscountCommand ToCommandFromResource(int discountId, UpdateScheduledDiscountResource resource)
+    public static ScheduleDiscountToProductCommand ToCommandFromResource(ScheduleDiscountResource resource)
     {
         var type = Enum.Parse<DiscountType>(resource.Type);
-        return new UpdateScheduledDiscountCommand(
-            discountId,
+        return new ScheduleDiscountToProductCommand(
+            resource.ProductId,
+            resource.Name,
             type,
             resource.Value,
             resource.StartsAt,
