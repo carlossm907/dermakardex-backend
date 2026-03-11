@@ -13,4 +13,6 @@ public interface IProductDiscountQueryService
     Task<IEnumerable<ProductDiscount>> Handle(GetActiveScheduledDiscountsQuery query);
 
     Task<IEnumerable<ProductDiscount>> Handle(GetScheduledDiscountsByProductIdQuery query);
+
+    Task<IEnumerable<ProductDiscount>> Handle(GetExpiredScheduledDiscountsQuery query);
 }

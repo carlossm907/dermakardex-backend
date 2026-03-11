@@ -87,6 +87,23 @@ public class ProductDiscountsController(
         return Ok(resources);
     }
 
+    [HttpGet("expired")]
+    [SwaggerOperation(
+    Summary = "Get expired scheduled discounts",
+    Description = "Returns expired scheduled product discounts",
+    OperationId = "GetExpiredScheduledDiscounts"
+    )]
+    public async Task<IActionResult> GetExpiredScheduledDiscounts()
+    {
+        var query = new GetExpiredScheduledDiscountsQuery();
+
+        var discounts = await productDiscountQueryService.Handle(query);
+
+        var resources = discounts.Select(ProductDiscountResourceFromEntityAssembler.ToResourceFromEntity);
+
+        return Ok(resources);
+    }
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Schedule discount to product",

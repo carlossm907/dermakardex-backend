@@ -47,4 +47,9 @@ public class ProductDiscountQueryService(
     {
         return await productDiscountRepository.FindByProductIdAsync(query.ProductId);
     }
+
+    public async Task<IEnumerable<ProductDiscount>> Handle(GetExpiredScheduledDiscountsQuery query)
+    {
+        return await productDiscountRepository.FindExpiredDiscountsAsync();
+    }
 }
