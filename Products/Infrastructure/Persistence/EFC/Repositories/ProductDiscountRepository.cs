@@ -28,7 +28,7 @@ public class ProductDiscountRepository(AppDbContext context) : BaseRepository<Pr
                 d.IsActive &&
                 d.StartsAt <= now &&
                 d.EndsAt >= now)
-            .OrderByDescending(d => d.StartsAt)
+            .OrderBy(d => d.EndsAt)
             .FirstOrDefaultAsync();
     }
 

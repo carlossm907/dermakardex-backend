@@ -21,14 +21,6 @@ public class ProductDiscountCommandService(
 
         if (command.EndsAt <= command.StartsAt) throw new ArgumentException("End date must be greater than start date");
 
-        var overlap = await productDiscountRepository.ExistsOverlapAsync(
-            command.ProductId,
-            command.StartsAt,
-            command.EndsAt
-        );
-
-        if (overlap) throw new InvalidOperationException("A scheduled discount already exists in this time range");
-
         var discount = CreateDiscount(command.Type, command.Value);
 
         var productDiscount = new ProductDiscount(
@@ -53,14 +45,6 @@ public class ProductDiscountCommandService(
             var product = await productRepository.FindByIdAsync(productId);
             if (product is null) continue;
 
-            var overlap = await productDiscountRepository.ExistsOverlapAsync(
-                productId,
-                command.StartsAt,
-                command.EndsAt
-            );
-
-            if (overlap) continue;
-
             var discount = CreateDiscount(command.Type, command.Value);
 
             var productDiscount = new ProductDiscount(
@@ -83,13 +67,6 @@ public class ProductDiscountCommandService(
 
         foreach (var product in products)
         {
-            var overlap = await productDiscountRepository.ExistsOverlapAsync(
-                product.Id,
-                command.StartsAt,
-                command.EndsAt
-            );
-
-            if (overlap) continue;
 
             var discount = CreateDiscount(command.Type, command.Value);
 
@@ -112,14 +89,6 @@ public class ProductDiscountCommandService(
         var discount = await productDiscountRepository.FindByIdAsync(command.ProductDiscountId);
 
         if (discount is null) throw new ArgumentException("Scheduled discount not found");
-
-        var overlap = await productDiscountRepository.ExistsOverlapAsync(
-            discount.ProductId,
-            command.StartsAt,
-            command.EndsAt
-        );
-
-        if (overlap) throw new InvalidOperationException("Another scheduled discount overlaps with this period");
 
         var newDiscount = CreateDiscount(command.Type, command.Value);
 
