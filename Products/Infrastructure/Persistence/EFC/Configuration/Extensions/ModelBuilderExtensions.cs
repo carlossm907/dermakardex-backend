@@ -212,6 +212,48 @@ public static class ModelBuilderExtensions
                 .IsRequired()
                 .HasDefaultValueSql("now()");
 
+            // ProductDiscount
+            builder.Entity<ProductDiscount>(discount =>
+                {
+                    discount.HasKey(d => d.Id);
+
+                    discount.Property(d => d.Id)
+                    .ValueGeneratedOnAdd();
+
+                    discount.Property(d => d.ProductId)
+                    .IsRequired();
+
+                    discount.Property(d => d.StartsAt)
+                    .IsRequired();
+
+                    discount.Property(d => d.EndsAt)
+                    .IsRequired();
+
+                    discount.Property(d => d.EndsAt)
+                    .IsRequired();
+
+                    // Value Object: Discount
+                    discount.OwnsOne(d => d.Discount, dsc =>
+                    {
+                        dsc.WithOwner().HasForeignKey("Id");
+
+                        dsc.Property(x => x.Type)
+                        .HasColumnName("discount_type")
+                        .IsRequired();
+
+                        dsc.Property(x => x.Value)
+                        .HasColumnName("discount_value")
+                        .IsRequired();
+                    });
+                    // FK a Product
+                    discount.HasOne<Product>()
+                        .WithMany()
+                        .HasForeignKey(d => d.ProductId)
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    discount.HasIndex(d => d.ProductId);
+                });
+
 
             // Value Object: UnitPurchasePrice
 

@@ -1,4 +1,5 @@
 using dermakardex_backend.Products.Domain.Model.Commands.Product;
+using Products.Domain.Model.Entities;
 using Products.Domain.Model.ValueObjects;
 using Shared.Domain.Model.ValueObjects;
 
@@ -195,6 +196,16 @@ public class Product
         }
 
         Discount.Update(discount.Type, discount.Value);
+    }
+
+    public void ValidateDiscount(Discount discount)
+    {
+        var discountAmount = discount.CalculateDiscount(SalePrice);
+
+        if (discountAmount.Amount > MaxDiscountAmount.Amount)
+        {
+            throw new ArgumentException($"Discount exceeds max allowed ({MaxDiscountAmount.Amount})");
+        }
     }
 
     public void RemoveDiscount()

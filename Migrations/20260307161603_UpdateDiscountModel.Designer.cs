@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -11,9 +12,11 @@ using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 namespace dermakardex_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260307161603_UpdateDiscountModel")]
+    partial class UpdateDiscountModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,49 +188,6 @@ namespace dermakardex_backend.Migrations
                         .HasName("p_k_laboratories");
 
                     b.ToTable("laboratories", (string)null);
-                });
-
-            modelBuilder.Entity("Products.Domain.Model.Entities.ProductDiscount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime>("EndsAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("ends_at");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_active");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer")
-                        .HasColumnName("product_id");
-
-                    b.Property<DateTime>("StartsAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("starts_at");
-
-                    b.HasKey("Id")
-                        .HasName("p_k_product_discounts");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("i_x_product_discounts_product_id");
-
-                    b.ToTable("product_discounts");
                 });
 
             modelBuilder.Entity("Products.Domain.Model.Entities.StockEntry", b =>
@@ -445,30 +405,6 @@ namespace dermakardex_backend.Migrations
 
             modelBuilder.Entity("Products.Domain.Model.Aggregates.Product", b =>
                 {
-                    b.OwnsOne("Products.Domain.Model.ValueObjects.Discount", "Discount", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer")
-                                .HasColumnName("id");
-
-                            b1.Property<int>("Type")
-                                .HasColumnType("integer")
-                                .HasColumnName("discount_type");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("numeric")
-                                .HasColumnName("discount_value");
-
-                            b1.HasKey("Id")
-                                .HasName("p_k_products");
-
-                            b1.ToTable("products");
-
-                            b1.WithOwner()
-                                .HasForeignKey("Id")
-                                .HasConstraintName("f_k_products_products_id");
-                        });
-
                     b.OwnsOne("Shared.Domain.Model.ValueObjects.Money", "MaxDiscountAmount", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -547,28 +483,6 @@ namespace dermakardex_backend.Migrations
                                 .HasConstraintName("f_k_products_products_id");
                         });
 
-                    b.Navigation("Discount")
-                        .IsRequired();
-
-                    b.Navigation("MaxDiscountAmount")
-                        .IsRequired();
-
-                    b.Navigation("PurchasePrice")
-                        .IsRequired();
-
-                    b.Navigation("SalePrice")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Products.Domain.Model.Entities.ProductDiscount", b =>
-                {
-                    b.HasOne("Products.Domain.Model.Aggregates.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("f_k_product_discounts_products_product_id");
-
                     b.OwnsOne("Products.Domain.Model.ValueObjects.Discount", "Discount", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -584,16 +498,25 @@ namespace dermakardex_backend.Migrations
                                 .HasColumnName("discount_value");
 
                             b1.HasKey("Id")
-                                .HasName("p_k_product_discounts");
+                                .HasName("p_k_products");
 
-                            b1.ToTable("product_discounts");
+                            b1.ToTable("products");
 
                             b1.WithOwner()
                                 .HasForeignKey("Id")
-                                .HasConstraintName("f_k_product_discounts_product_discounts_id");
+                                .HasConstraintName("f_k_products_products_id");
                         });
 
                     b.Navigation("Discount")
+                        .IsRequired();
+
+                    b.Navigation("MaxDiscountAmount")
+                        .IsRequired();
+
+                    b.Navigation("PurchasePrice")
+                        .IsRequired();
+
+                    b.Navigation("SalePrice")
                         .IsRequired();
                 });
 
