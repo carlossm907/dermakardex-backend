@@ -11,7 +11,7 @@ public static class ProductDiscountResourceFromEntityAssembler
             entity.Id,
             entity.ProductId,
             entity.Name,
-            entity.Discount.Type.ToString(),
+            entity.Discount.Type,
             entity.Discount.Value,
             entity.StartsAt,
             entity.EndsAt,

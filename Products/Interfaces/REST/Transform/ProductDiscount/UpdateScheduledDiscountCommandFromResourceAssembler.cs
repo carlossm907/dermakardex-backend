@@ -8,11 +8,10 @@ public static class UpdateScheduledDiscountCommandFromResourceAssembler
 {
     public static UpdateScheduledDiscountCommand ToCommandFromResource(int discountId, UpdateScheduledDiscountResource resource)
     {
-        var type = Enum.Parse<DiscountType>(resource.Type);
         return new UpdateScheduledDiscountCommand(
             discountId,
             resource.Name,
-            type,
+            resource.Type,
             resource.Value,
             resource.StartsAt,
             resource.EndsAt
