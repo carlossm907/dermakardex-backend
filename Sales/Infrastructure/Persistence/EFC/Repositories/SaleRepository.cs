@@ -33,6 +33,17 @@ public class SaleRepository(AppDbContext context) : BaseRepository<Sale>(context
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Sale>> FindByDayWithDetailsAsync(DateOnly day)
+    {
+        return await Context.Set<Sale>()
+        .Include(s => s.Items)
+        .Include(s => s.Payments)
+        .Where(s => s.SaleDate == day)
+        .OrderBy(s => s.CustomerFullName)
+        .ThenBy(s => s.SaleTime)
+        .ToListAsync();
+    }
+
     public async Task<Sale?> FindByIdWithDetailsAsync(int saleId)
     {
         return await Context.Set<Sale>()
@@ -48,6 +59,18 @@ public class SaleRepository(AppDbContext context) : BaseRepository<Sale>(context
             .OrderByDescending(s => s.SaleDate)
             .ThenByDescending(s => s.SaleTime)
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Sale>> FindByMonthWithDetailsAsync(int year, int month)
+    {
+        return await Context.Set<Sale>()
+        .Include(s => s.Items)
+        .Include(s => s.Payments)
+        .Where(s => s.SaleDate.Year == year && s.SaleDate.Month == month)
+        .OrderBy(s => s.CustomerFullName)
+        .ThenBy(s => s.SaleDate)
+        .ThenBy(s => s.SaleTime)
+        .ToListAsync();
     }
 
     public async Task<IEnumerable<Sale>> FindByProductIdAsync(int productId)
