@@ -15,4 +15,6 @@ public interface ISaleQueryService
     Task<Sale?> Handle(GetSaleByIdQuery query);
     Task<IEnumerable<SalesGroupedByCustomerReport>> Handle(GetSalesGroupedByCustomerByDayQuery query);
     Task<IEnumerable<SalesGroupedByCustomerReport>> Handle(GetSalesGroupedByCustomerByMonthQuery query);
+    Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductSalesByProductBetweenDatesQuery query);
+    Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductsSalesBetweenDatesQuery query);
 }
