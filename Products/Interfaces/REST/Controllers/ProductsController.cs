@@ -108,6 +108,76 @@ public class ProductsController(IProductCommandService productCommandService, IP
         return Ok(productResource);
     }
 
+    [HttpGet("{productId:int}/stock-report")]
+    [SwaggerOperation(
+    "Get Product Daily Stock Report",
+    "Returns the daily stock report for a product between two dates.",
+    OperationId = "GetProductDailyStockReport")]
+    [SwaggerResponse(200, "The stock report was generated.", typeof(IEnumerable<ProductDailyStockReportResource>))]
+    [SwaggerResponse(404, "The product was not found.")]
+    public async Task<IActionResult> GetProductDailyStockReport(
+    int productId,
+    [FromQuery] DateOnly from,
+    [FromQuery] DateOnly to)
+    {
+        var query = new GetProductDailyStockReportQuery(productId, from, to);
+
+        var report = await productQueryService.Handle(query);
+
+        var resources = report.Select(
+            ProductDailyStockReportResourceFromEntityAssembler.ToResourceFromEntity
+        );
+
+        return Ok(resources);
+    }
+
+    [HttpGet("stock-report")]
+    [SwaggerOperation(
+    "Get All Products Daily Stock Report",
+    "Returns the daily stock report for all products between two dates.",
+    OperationId = "GetAllProductsDailyStockReport")]
+    [SwaggerResponse(200, "The stock report was generated.", typeof(IEnumerable<ProductDailyStockReportResource>))]
+    public async Task<IActionResult> GetAllProductsDailyStockReport(
+    [FromQuery] DateOnly from,
+    [FromQuery] DateOnly to)
+    {
+        var query = new GetAllProductsDailyStockReportQuery(from, to);
+
+        var report = await productQueryService.Handle(query);
+
+        var resources = report.Select(
+            ProductDailyStockReportResourceFromEntityAssembler.ToResourceFromEntity
+        );
+
+        return Ok(resources);
+    }
+
+    [HttpGet("stock-report/products")]
+    [SwaggerOperation(
+    "Get Selected Products Daily Stock Report",
+    "Returns the daily stock report for selected products between two dates.",
+    OperationId = "GetProductsDailyStockReport")]
+    [SwaggerResponse(200, "The stock report was generated.", typeof(IEnumerable<ProductDailyStockReportResource>))]
+    public async Task<IActionResult> GetProductsDailyStockReport(
+    [FromQuery] IEnumerable<int> productIds,
+    [FromQuery] DateOnly from,
+    [FromQuery] DateOnly to)
+    {
+        var query = new GetProductsDailyStockReportQuery(
+            productIds,
+            from,
+            to
+        );
+
+        var report = await productQueryService.Handle(query);
+
+        var resources = report.Select(
+            ProductDailyStockReportResourceFromEntityAssembler.ToResourceFromEntity
+        );
+
+        return Ok(resources);
+    }
+
     // Discount Endpoints
 
     [HttpPost("{productId:int}/discount")]
