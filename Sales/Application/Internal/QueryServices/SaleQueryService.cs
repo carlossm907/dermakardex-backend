@@ -121,4 +121,22 @@ public class SaleQueryService(ISaleRepository saleRepository) : ISaleQueryServic
 
         return grouped;
     }
+
+    public async Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductSalesByProductBetweenDatesQuery query)
+    {
+        return await saleRepository.FindProductSalesPerDayAsync(
+        query.ProductId,
+        query.From,
+        query.To
+    );
+
+    }
+
+    public async Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductsSalesBetweenDatesQuery query)
+    {
+        return await saleRepository.FindProductsSalesPerDayAsync(
+        query.From,
+        query.To
+    );
+    }
 }

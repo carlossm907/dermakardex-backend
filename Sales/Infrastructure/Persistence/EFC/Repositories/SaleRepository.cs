@@ -2,6 +2,7 @@ using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using dermakardex_backend.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Sales.Domain.Model.Aggregates;
+using Sales.Domain.Model.ReadModels;
 using Sales.Domain.Repositories;
 
 namespace Sales.Infrastructure.Persistence.EFC.Repositories;
@@ -89,6 +90,51 @@ public class SaleRepository(AppDbContext context) : BaseRepository<Sale>(context
             .OrderByDescending(s => s.SaleDate)
             .ThenByDescending(s => s.SaleTime)
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<ProductSalesPerDay>> FindProductSalesPerDayAsync(
+    int productId,
+    DateOnly from,
+    DateOnly to)
+    {
+        return await Context.Set<Sale>()
+            .Where(s => s.SaleDate >= from && s.SaleDate <= to)
+            .SelectMany(s => s.Items
+                .Where(i => i.ProductId == productId)
+                .Select(i => new ProductSalesPerDay
+                {
+                    ProductId = i.ProductId,
+                    Date = s.SaleDate,
+                    Quantity = i.Quantity
+                }))
+            .GroupBy(x => new { x.ProductId, x.Date })
+            .Select(g => new ProductSalesPerDay
+            {
+                ProductId = g.Key.ProductId,
+                Date = g.Key.Date,
+                Quantity = g.Sum(x => x.Quantity)
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<ProductSalesPerDay>> FindProductsSalesPerDayAsync(DateOnly from, DateOnly to)
+    {
+        return await Context.Set<Sale>()
+        .Where(s => s.SaleDate >= from && s.SaleDate <= to)
+        .SelectMany(s => s.Items.Select(i => new
+        {
+            i.ProductId,
+            Date = s.SaleDate,
+            i.Quantity
+        }))
+        .GroupBy(x => new { x.ProductId, x.Date })
+        .Select(g => new ProductSalesPerDay
+        {
+            ProductId = g.Key.ProductId,
+            Date = g.Key.Date,
+            Quantity = g.Sum(x => x.Quantity)
+        })
+        .ToListAsync();
     }
 
     public async Task<int> GetNextTicketSequenceAsync()
