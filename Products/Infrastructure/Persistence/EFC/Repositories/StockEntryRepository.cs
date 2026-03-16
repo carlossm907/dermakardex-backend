@@ -29,13 +29,13 @@ public class StockEntryRepository(AppDbContext context) : BaseRepository<StockEn
         return await Context.Set<StockEntry>()
         .Where(e =>
             e.ProductId == productId &&
-            DateOnly.FromDateTime(e.RegisteredAt) >= from &&
-            DateOnly.FromDateTime(e.RegisteredAt) <= to
+            DateOnly.FromDateTime(e.RegisteredAt.ToLocalTime()) >= from &&
+            DateOnly.FromDateTime(e.RegisteredAt.ToLocalTime()) <= to
         )
         .GroupBy(e => new
         {
             e.ProductId,
-            Date = DateOnly.FromDateTime(e.RegisteredAt)
+            Date = DateOnly.FromDateTime(e.RegisteredAt.ToLocalTime())
         })
         .Select(g => new ProductEntriesPerDay
         {
@@ -50,13 +50,13 @@ public class StockEntryRepository(AppDbContext context) : BaseRepository<StockEn
     {
         return await Context.Set<StockEntry>()
         .Where(e =>
-            DateOnly.FromDateTime(e.RegisteredAt) >= from &&
-            DateOnly.FromDateTime(e.RegisteredAt) <= to
+            DateOnly.FromDateTime(e.RegisteredAt.ToLocalTime()) >= from &&
+            DateOnly.FromDateTime(e.RegisteredAt.ToLocalTime()) <= to
         )
         .GroupBy(e => new
         {
             e.ProductId,
-            Date = DateOnly.FromDateTime(e.RegisteredAt)
+            Date = DateOnly.FromDateTime(e.RegisteredAt.ToLocalTime())
         })
         .Select(g => new ProductEntriesPerDay
         {
