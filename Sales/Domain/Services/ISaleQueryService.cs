@@ -1,6 +1,7 @@
 using Sales.Domain.Model.Aggregates;
 using Sales.Domain.Model.Queries;
 using Sales.Domain.Model.ReadModels;
+using Sales.Domain.Model.ReadModels.SalesTimeLine;
 
 namespace Sales.Domain.Services;
 
@@ -17,4 +18,5 @@ public interface ISaleQueryService
     Task<IEnumerable<SalesGroupedByCustomerReport>> Handle(GetSalesGroupedByCustomerByMonthQuery query);
     Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductSalesByProductBetweenDatesQuery query);
     Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductsSalesBetweenDatesQuery query);
+    Task<IEnumerable<SalesTimelineByDay>> Handle(GetSalesTimelineByMonthQuery query);
 }
