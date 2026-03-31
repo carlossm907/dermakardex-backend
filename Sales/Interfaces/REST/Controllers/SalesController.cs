@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sales.Domain.Model.Queries;
 using Sales.Domain.Services;
 using Sales.Interfaces.REST.Resources;
+using Sales.Interfaces.REST.Resources.SalesTimeLine;
 using Sales.Interfaces.REST.Transform;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -118,6 +119,25 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
 
         var resources = report
             .Select(SalesGroupedByCustomerReportResourceFromModelAssembler.ToResourceFromModel);
+
+        return Ok(resources);
+    }
+
+    [HttpGet("report/month/timeline/{year:int}/{month:int}")]
+    [SwaggerOperation(
+    Summary = "Get Sales Timeline By Month",
+    Description = "Returns sales grouped by day with sequential seller blocks.",
+    OperationId = "GetSalesTimelineByMonth")]
+    [SwaggerResponse(200, "Sales timeline retrieved successfully.",
+    typeof(IEnumerable<SalesTimelineByDayResource>))]
+    public async Task<IActionResult> GetSalesTimelineByMonth(int year, int month)
+    {
+        var query = new GetSalesTimelineByMonthQuery(year, month);
+
+        var result = await saleQueryService.Handle(query);
+
+        var resources = result
+            .Select(SalesTimelineResourceFromModelAssembler.ToResourceFromModel);
 
         return Ok(resources);
     }
