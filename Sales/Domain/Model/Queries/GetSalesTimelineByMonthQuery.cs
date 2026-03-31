@@ -1,0 +1,1 @@
+public record GetSalesTimelineByMonthQuery(int Year, int Month);
