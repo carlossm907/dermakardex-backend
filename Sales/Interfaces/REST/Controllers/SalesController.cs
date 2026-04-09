@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Sales.Application.Internal.OutboundServices;
 using Sales.Domain.Model.Queries;
 using Sales.Domain.Services;
 using Sales.Interfaces.REST.Resources;
@@ -10,7 +11,7 @@ namespace Sales.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class SalesController(ISaleCommandService saleCommandService, ISaleQueryService saleQueryService) : ControllerBase
+public class SalesController(ISaleCommandService saleCommandService, ISaleQueryService saleQueryService, IDniLookupService dniLookupService) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAllSales()
@@ -140,6 +141,28 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
             .Select(SalesTimelineResourceFromModelAssembler.ToResourceFromModel);
 
         return Ok(resources);
+    }
+
+    [HttpGet("dni/{dni}")]
+    [SwaggerOperation(
+        Summary = "Get customer full name by DNI",
+        Description = "Looks up the full name associated with the given 8-digit DNI using ApiPeru.",
+        OperationId = "GetCustomerFullNameByDni")]
+    [SwaggerResponse(200, "DNI found.")]
+    [SwaggerResponse(400, "Invalid DNI format.")]
+    [SwaggerResponse(404, "DNI not found in the registry.")]
+    public async Task<IActionResult> GetCustomerFullNameByDni(string dni)
+    {
+        if (string.IsNullOrWhiteSpace(dni) || dni.Length != 8 || !dni.All(char.IsDigit))
+            return BadRequest(new { error = "El DNI debe tener exactamente 8 dígitos numéricos." });
+
+        var fullName = await dniLookupService.GetFullNameByDniAsync(dni);
+
+        if (fullName is null)
+            return NotFound(new { error = "No se encontró información para el DNI ingresado." });
+
+        var resource = DniLookupResourceFromStringAssembler.ToResourceFromFullName(fullName);
+        return Ok(resource);
     }
 
     [HttpPost]
