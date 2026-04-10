@@ -262,6 +262,25 @@ public class ProductQueryService(IProductRepository productRepository, ISalesCon
         return results;
     }
 
+    public async Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetAffectedProductsDailyStockReportQuery query)
+    {
+        var all = await Handle(
+        new GetAllProductsDailyStockReportQuery(query.From, query.To)
+    );
+
+        bool singleDay = query.From == query.To;
+
+        return all.Where(r =>
+        {
+            if (singleDay)
+            {
+                return r.Entries > 0 || r.Sold > 0;
+            }
+
+            return r.Entries > 0 || r.Sold > 0;
+        });
+    }
+
     public async Task<IEnumerable<ProductSalesReportItem>> Handle(GetProductSalesReportQuery query)
     {
         var product = await productRepository.FindByIdAsync(query.ProductId);
@@ -418,6 +437,15 @@ public class ProductQueryService(IProductRepository productRepository, ISalesCon
         return results;
     }
 
+    public async Task<IEnumerable<ProductSalesReportItem>> Handle(GetAffectedProductsSalesReportQuery query)
+    {
+        var all = await Handle(
+        new GetAllProductsSalesReportQuery(query.From, query.To)
+    );
+
+        return all.Where(r => r.Quantity > 0);
+    }
+
     public async Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductEntriesReportQuery query)
     {
         var product = await productRepository.FindByIdAsync(query.ProductId);
@@ -533,5 +561,14 @@ public class ProductQueryService(IProductRepository productRepository, ISalesCon
         }
 
         return results;
+    }
+
+    public async Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetAffectedProductsEntriesReportQuery query)
+    {
+        var all = await Handle(
+        new GetAllProductsEntriesReportQuery(query.From, query.To)
+    );
+
+        return all.Where(r => r.Quantity > 0);
     }
 }

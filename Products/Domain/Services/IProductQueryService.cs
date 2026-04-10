@@ -23,15 +23,21 @@ public interface IProductQueryService
 
     Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetProductsDailyStockReportQuery query);
 
+    Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetAffectedProductsDailyStockReportQuery query);
+
     Task<IEnumerable<ProductSalesReportItem>> Handle(GetProductSalesReportQuery query);
 
     Task<IEnumerable<ProductSalesReportItem>> Handle(GetProductsSalesReportQuery query);
 
     Task<IEnumerable<ProductSalesReportItem>> Handle(GetAllProductsSalesReportQuery query);
 
+    Task<IEnumerable<ProductSalesReportItem>> Handle(GetAffectedProductsSalesReportQuery query);
+
     Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductEntriesReportQuery query);
 
     Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductsEntriesReportQuery query);
 
     Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetAllProductsEntriesReportQuery query);
+
+    Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetAffectedProductsEntriesReportQuery query);
 }
