@@ -152,6 +152,27 @@ public class ProductsController(IProductCommandService productCommandService, IP
         return Ok(resources);
     }
 
+    [HttpGet("stock-report/affected")]
+    [SwaggerOperation(
+    "Get Affected Products Daily Stock Report",
+    "Returns the daily stock report only for products with stock changes (entries or sales) between two dates.",
+    OperationId = "GetAffectedProductsDailyStockReport")]
+    [SwaggerResponse(200, "The stock report was generated.", typeof(IEnumerable<ProductDailyStockReportResource>))]
+    public async Task<IActionResult> GetAffectedProductsDailyStockReport(
+    [FromQuery] DateOnly from,
+    [FromQuery] DateOnly to)
+    {
+        var query = new GetAffectedProductsDailyStockReportQuery(from, to);
+
+        var report = await productQueryService.Handle(query);
+
+        var resources = report.Select(
+            ProductDailyStockReportResourceFromEntityAssembler.ToResourceFromEntity
+        );
+
+        return Ok(resources);
+    }
+
     [HttpGet("stock-report/products")]
     [SwaggerOperation(
     "Get Selected Products Daily Stock Report",
