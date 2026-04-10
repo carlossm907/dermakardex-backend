@@ -74,4 +74,24 @@ public class ProductSalesReportController(IProductQueryService productQueryServi
         return Ok(resources);
     }
 
+    [HttpGet("affected")]
+    [SwaggerOperation(
+    "Get Affected Products Sales Report",
+    "Returns the sales report only for products with sales in the selected period.",
+    OperationId = "GetAffectedProductsSalesReport")]
+    public async Task<IActionResult> GetAffectedProductsSalesReport(
+    [FromQuery] DateOnly from,
+    [FromQuery] DateOnly to)
+    {
+        var query = new GetAffectedProductsSalesReportQuery(from, to);
+
+        var report = await productQueryService.Handle(query);
+
+        var resources = report.Select(
+            ProductSalesReportResourceFromEntityAssembler.ToResourceFromEntity
+        );
+
+        return Ok(resources);
+    }
+
 }
