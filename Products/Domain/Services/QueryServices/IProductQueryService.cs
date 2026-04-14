@@ -25,11 +25,4 @@ public interface IProductQueryService
 
     Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetAffectedProductsDailyStockReportQuery query);
 
-    Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductEntriesReportQuery query);
-
-    Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductsEntriesReportQuery query);
-
-    Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetAllProductsEntriesReportQuery query);
-
-    Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetAffectedProductsEntriesReportQuery query);
 }
