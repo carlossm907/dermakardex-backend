@@ -1,5 +1,6 @@
 using Products.Domain.Model.Entities;
-using Products.Domain.Model.Queries;
+using Products.Domain.Model.Queries.StockEntry;
+
 
 namespace Products.Domain.Services;
 
