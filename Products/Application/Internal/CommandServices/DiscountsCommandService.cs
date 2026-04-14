@@ -1,4 +1,4 @@
-using dermakardex_backend.Products.Domain.Model.Commands.Product;
+using dermakardex_backend.Products.Domain.Model.Commands.Discounts;
 using dermakardex_backend.Shared.Domain.Repositories;
 using Products.Domain.Model.ValueObjects;
 using Products.Domain.Repositories;
