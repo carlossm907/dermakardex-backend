@@ -1,3 +1,3 @@
-namespace Products.Domain.Model.Queries;
+namespace Products.Domain.Model.Queries.ScheduledDiscount;
 
 public record GetScheduledDiscountsByProductIdQuery(int ProductId);
