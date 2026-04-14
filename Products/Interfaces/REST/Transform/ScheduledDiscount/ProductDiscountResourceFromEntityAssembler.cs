@@ -1,5 +1,5 @@
 using Products.Domain.Model.Entities;
-using Products.Interfaces.REST.Resources;
+using Products.Interfaces.REST.Resources.ScheduledDiscount;
 
 namespace Products.Interfaces.REST.Transform;
 

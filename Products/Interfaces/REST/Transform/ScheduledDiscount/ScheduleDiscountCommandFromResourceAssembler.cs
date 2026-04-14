@@ -1,6 +1,5 @@
-using Products.Domain.Model.Commands.ProductDiscount;
-using Products.Interfaces.REST.Resources;
-using Shared.Domain.Model.ValueObjects;
+using Products.Domain.Model.Commands.ScheduledDiscount;
+using Products.Interfaces.REST.Resources.ScheduledDiscount;
 
 namespace Products.Interfaces.REST.Transform;
 
