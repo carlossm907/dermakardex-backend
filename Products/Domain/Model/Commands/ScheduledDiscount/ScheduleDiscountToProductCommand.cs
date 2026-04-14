@@ -1,6 +1,6 @@
 using Shared.Domain.Model.ValueObjects;
 
-namespace Products.Domain.Model.Commands.ProductDiscount;
+namespace Products.Domain.Model.Commands.ScheduledDiscount;
 
 public record ScheduleDiscountToProductCommand(
     int ProductId,
