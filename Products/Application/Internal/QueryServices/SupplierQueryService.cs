@@ -1,5 +1,5 @@
 using Products.Domain.Model.Entities;
-using Products.Domain.Model.Queries;
+using Products.Domain.Model.Queries.Supplier;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
 
