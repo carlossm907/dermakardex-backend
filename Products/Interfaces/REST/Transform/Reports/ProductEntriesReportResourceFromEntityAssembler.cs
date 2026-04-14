@@ -1,5 +1,5 @@
 using Products.Domain.Model.ReadModels;
-using Products.Interfaces.REST.Resources.Product;
+using Products.Interfaces.REST.Resources.Reports;
 
 namespace Products.Interfaces.REST.Transform;
 
