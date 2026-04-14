@@ -1,4 +1,4 @@
-namespace Products.Domain.Model.Queries;
+namespace Products.Domain.Model.Queries.StockEntryProductReport;
 
 public record GetAffectedProductsEntriesReportQuery(
     DateOnly From,
