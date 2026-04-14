@@ -1,6 +1,6 @@
 using Shared.Domain.Model.ValueObjects;
 
-namespace dermakardex_backend.Products.Domain.Model.Commands.Product;
+namespace dermakardex_backend.Products.Domain.Model.Commands.Discounts;
 
 public record ApplyDiscountToProductsCommand(
     IReadOnlyCollection<int> ProductIds,
