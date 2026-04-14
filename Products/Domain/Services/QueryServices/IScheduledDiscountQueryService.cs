@@ -5,7 +5,7 @@ using Products.Domain.Model.Queries.ScheduledDiscount;
 
 namespace Products.Domain.Services;
 
-public interface IProductDiscountQueryService
+public interface IScheduledDiscountQueryService
 {
     Task<IEnumerable<ProductDiscount>> Handle(GetAllScheduledDiscountsQuery query);
 
