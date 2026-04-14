@@ -1,4 +1,4 @@
-using Products.Domain.Model.Commands.ProductDiscount;
+using Products.Domain.Model.Commands.ScheduledDiscount;
 using Products.Domain.Model.Entities;
 
 namespace Products.Domain.Services;
