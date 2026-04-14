@@ -1,9 +1,8 @@
 using Shared.Domain.Model.ValueObjects;
 
-namespace Products.Interfaces.REST.Resources;
+namespace Products.Interfaces.REST.Resources.ScheduledDiscount;
 
-public record ScheduleDiscountToProductsResource(
-    IEnumerable<int> ProductIds,
+public record ScheduleDiscountToAllProductsResource(
     string Name,
     DiscountType DiscountType,
     decimal DiscountValue,

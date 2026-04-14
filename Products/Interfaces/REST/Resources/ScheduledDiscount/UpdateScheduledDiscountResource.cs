@@ -1,9 +1,8 @@
 using Shared.Domain.Model.ValueObjects;
 
-namespace Products.Interfaces.REST.Resources;
+namespace Products.Interfaces.REST.Resources.ScheduledDiscount;
 
-public record ScheduleDiscountResource(
-    int ProductId,
+public record UpdateScheduledDiscountResource(
     string Name,
     DiscountType Type,
     decimal Value,
