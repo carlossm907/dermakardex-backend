@@ -17,12 +17,4 @@ public interface IProductQueryService
 
     Task<Product?> Handle(GetProductByCodeQuery query);
 
-    Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetProductDailyStockReportQuery query);
-
-    Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetAllProductsDailyStockReportQuery query);
-
-    Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetProductsDailyStockReportQuery query);
-
-    Task<IEnumerable<ProductDailyStockReportItem>> Handle(GetAffectedProductsDailyStockReportQuery query);
-
 }
