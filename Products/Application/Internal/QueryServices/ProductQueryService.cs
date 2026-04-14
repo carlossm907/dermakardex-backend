@@ -2,14 +2,12 @@ using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Queries;
 using Products.Domain.Services;
 using Products.Domain.Repositories;
-using Products.Domain.Model.ReadModels;
-using Sales.Interfaces.ACL;
-using Products.Domain.Model.Queries.SalesProductReport;
-using Products.Domain.Model.Queries.StockEntryProductReport;
 
 namespace Products.Application.Internal.QueryServices;
 
-public class ProductQueryService(IProductRepository productRepository, ISalesContextFacade salesContextFacade, IStockEntryRepository stockEntryRepository) : IProductQueryService
+public class ProductQueryService(
+    IProductRepository productRepository)
+    : IProductQueryService
 {
     public async Task<Product?> Handle(GetProductByIdQuery query)
     {
