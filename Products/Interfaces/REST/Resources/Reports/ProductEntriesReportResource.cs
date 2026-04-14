@@ -1,4 +1,4 @@
-namespace Products.Interfaces.REST.Resources.Product;
+namespace Products.Interfaces.REST.Resources.Reports;
 
 public record ProductEntriesReportResource(
     int ProductId,

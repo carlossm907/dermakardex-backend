@@ -1,4 +1,4 @@
-namespace Products.Interfaces.REST.Resources;
+namespace Products.Interfaces.REST.Resources.Reports;
 
 public record ProductDailyStockReportResource(
     int ProductId,
