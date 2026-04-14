@@ -15,7 +15,7 @@ namespace Products.Interfaces.REST.Controllers;
 [SwaggerTag("Products Schedules Discounts Endpoints.")]
 
 public class ProductDiscountsController(
-    IProductDiscountCommandService productDiscountCommandService,
+    IScheduledDiscountCommandService scheduledDiscountCommandService,
     IProductDiscountQueryService productDiscountQueryService
 ) : ControllerBase
 {
@@ -114,7 +114,7 @@ public class ProductDiscountsController(
     {
         var command = ScheduleDiscountCommandFromResourceAssembler.ToCommandFromResource(resource);
 
-        var discount = await productDiscountCommandService.Handle(command);
+        var discount = await scheduledDiscountCommandService.Handle(command);
 
         var response = ProductDiscountResourceFromEntityAssembler.ToResourceFromEntity(discount);
 
@@ -131,7 +131,7 @@ public class ProductDiscountsController(
     {
         var command = ScheduleDiscountToProductsCommandFromResourceAssembler.ToCommandFromResource(resource);
 
-        await productDiscountCommandService.Handle(command);
+        await scheduledDiscountCommandService.Handle(command);
 
         return Ok();
     }
@@ -146,7 +146,7 @@ public class ProductDiscountsController(
     {
         var command = ScheduleDiscountToAllProductsCommandFromResourceAssembler.ToCommandFromResource(resource);
 
-        await productDiscountCommandService.Handle(command);
+        await scheduledDiscountCommandService.Handle(command);
 
         return Ok();
     }
@@ -161,7 +161,7 @@ public class ProductDiscountsController(
     {
         var command = new CleanupExpiredProductDiscountsCommand();
 
-        await productDiscountCommandService.Handle(command);
+        await scheduledDiscountCommandService.Handle(command);
 
         return NoContent();
     }
@@ -177,7 +177,7 @@ public class ProductDiscountsController(
     {
         var command = UpdateScheduledDiscountCommandFromResourceAssembler.ToCommandFromResource(discountId, resource);
 
-        await productDiscountCommandService.Handle(command);
+        await scheduledDiscountCommandService.Handle(command);
 
         return NoContent();
     }
@@ -192,7 +192,7 @@ public class ProductDiscountsController(
     {
         var command = new DeleteScheduledDiscountCommand(discountId);
 
-        await productDiscountCommandService.Handle(command);
+        await scheduledDiscountCommandService.Handle(command);
 
         return NoContent();
     }
@@ -207,7 +207,7 @@ public class ProductDiscountsController(
     {
         var command = new DisableScheduledDiscountCommand(discountId);
 
-        await productDiscountCommandService.Handle(command);
+        await scheduledDiscountCommandService.Handle(command);
 
         return NoContent();
     }
