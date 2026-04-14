@@ -1,5 +1,5 @@
 using dermakardex_backend.Shared.Domain.Repositories;
-using Products.Domain.Model.Commands.ProductDiscount;
+using Products.Domain.Model.Commands.ScheduledDiscount;
 using Products.Domain.Model.Entities;
 using Products.Domain.Model.ValueObjects;
 using Products.Domain.Repositories;
