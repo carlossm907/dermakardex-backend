@@ -4,7 +4,6 @@ using dermakardex_backend.Shared.Domain.Repositories;
 using IAM.Interfaces.ACL;
 using Products.Domain.Model.Aggregates;
 using Products.Domain.Model.Entities;
-using Products.Domain.Model.ValueObjects;
 using Products.Domain.Repositories;
 using Products.Domain.Services;
 using Shared.Domain.Model.ValueObjects;
