@@ -1,4 +1,4 @@
-using dermakardex_backend.Products.Domain.Model.Commands.Product;
+using dermakardex_backend.Products.Domain.Model.Commands.Discounts;
 
 namespace Products.Domain.Services;
 
