@@ -22,16 +22,4 @@ public interface IProductCommandService
 
     Task Handle(RegisterProductEntryCommand command);
 
-    Task Handle(ApplyDiscountToProductCommand command);
-
-    Task Handle(RemoveDiscountFromAllProductsCommand command);
-
-    Task Handle(RemoveDiscountFromProductCommand command);
-
-    Task Handle(ApplyDiscountToProductsCommand command);
-
-    Task Handle(ApplyDiscountToAllProductsCommand command);
-
-
-
 }
