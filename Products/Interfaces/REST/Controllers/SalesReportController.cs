@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Sales Report Endpoints")]
 public class SalesReportController(
-    ISalesProductReportQueryService salesProductReportQueryService) : ControllerBase
+    ISalesReportQueryService salesReportQueryService) : ControllerBase
 {
 
     [HttpGet("{productId:int}")]
@@ -30,7 +30,7 @@ public class SalesReportController(
     {
         var query = new GetProductSalesReportQuery(productId, from, to);
 
-        var result = await salesProductReportQueryService.Handle(query);
+        var result = await salesReportQueryService.Handle(query);
 
         var resources = result
             .Select(ProductSalesReportResourceFromEntityAssembler.ToResourceFromEntity);
@@ -54,7 +54,7 @@ public class SalesReportController(
     {
         var query = new GetProductsSalesReportQuery(productIds, from, to);
 
-        var result = await salesProductReportQueryService.Handle(query);
+        var result = await salesReportQueryService.Handle(query);
 
         var resources = result
             .Select(ProductSalesReportResourceFromEntityAssembler.ToResourceFromEntity);
@@ -76,7 +76,7 @@ public class SalesReportController(
     {
         var query = new GetAllProductsSalesReportQuery(from, to);
 
-        var result = await salesProductReportQueryService.Handle(query);
+        var result = await salesReportQueryService.Handle(query);
 
         var resources = result
             .Select(ProductSalesReportResourceFromEntityAssembler.ToResourceFromEntity);
@@ -98,7 +98,7 @@ public class SalesReportController(
     {
         var query = new GetAffectedProductsSalesReportQuery(from, to);
 
-        var report = await salesProductReportQueryService.Handle(query);
+        var report = await salesReportQueryService.Handle(query);
 
         var resources = report.Select(
             ProductSalesReportResourceFromEntityAssembler.ToResourceFromEntity
