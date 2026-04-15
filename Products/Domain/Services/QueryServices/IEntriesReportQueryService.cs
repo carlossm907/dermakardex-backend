@@ -3,7 +3,7 @@ using Products.Domain.Model.ReadModels;
 
 namespace Products.Domain.Services.QueryServices;
 
-public interface IStockEntryProductReportQueryService
+public interface IEntriesReportQueryService
 {
     Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductEntriesReportQuery query);
 
