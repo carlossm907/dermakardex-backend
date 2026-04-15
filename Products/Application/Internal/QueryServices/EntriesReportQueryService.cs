@@ -5,12 +5,12 @@ using Products.Domain.Services.QueryServices;
 
 namespace Products.Application.Internal.QueryServices;
 
-public class StockEntryProductReportQueryService(
+public class EntriesReportQueryService(
 
     IProductRepository productRepository,
     IStockEntryRepository stockEntryRepository
 
-) : IStockEntryProductReportQueryService
+) : IEntriesReportQueryService
 {
     public async Task<IEnumerable<ProductDailyEntriesReportItem>> Handle(GetProductEntriesReportQuery query)
     {
