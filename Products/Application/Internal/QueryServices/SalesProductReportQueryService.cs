@@ -1,14 +1,14 @@
 using Products.Domain.Model.Queries.SalesProductReport;
 using Products.Domain.Model.ReadModels;
+using Products.Domain.Repositories;
 using Products.Domain.Services.QueryServices;
-using Products.Infrastructure.Persistence.EFC.Repositories;
 using Sales.Interfaces.ACL;
 
 namespace Products.Application.Internal.QueryServices;
 
 public class SalesProductReportQueryService(
 
-    ProductRepository productRepository,
+    IProductRepository productRepository,
     ISalesContextFacade salesContextFacade
 
 ) : ISalesProductReportQueryService
