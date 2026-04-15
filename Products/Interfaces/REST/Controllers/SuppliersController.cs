@@ -1,7 +1,7 @@
 using System.Net.Mime;
 using dermakardex_backend.Products.Domain.Model.Commands.Supplier;
 using Microsoft.AspNetCore.Mvc;
-using Products.Domain.Model.Queries;
+using Products.Domain.Model.Queries.Supplier;
 using Products.Domain.Services;
 using Products.Interfaces.REST.Resources;
 using Products.Interfaces.REST.Transform;
