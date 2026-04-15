@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Products.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/products")]
+[Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Products Endpoints.")]
 public class ProductsController(
