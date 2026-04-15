@@ -14,7 +14,7 @@ namespace Products.Interfaces.REST.Controllers;
 [SwaggerTag("Product Entries Report Endpoints")]
 public class EntriesReportController(
 
-    IStockEntryProductReportQueryService stockEntryProductReportQueryService
+    IEntriesReportQueryService entriesReportQueryService
 
 ) : ControllerBase
 {
@@ -34,7 +34,7 @@ public class EntriesReportController(
     {
         var query = new GetProductEntriesReportQuery(productId, from, to);
 
-        var result = await stockEntryProductReportQueryService.Handle(query);
+        var result = await entriesReportQueryService.Handle(query);
 
         var resources = result
             .Select(ProductEntriesReportResourceFromEntityAssembler.ToResourceFromEntity);
@@ -57,7 +57,7 @@ public class EntriesReportController(
     {
         var query = new GetProductsEntriesReportQuery(productIds, from, to);
 
-        var result = await stockEntryProductReportQueryService.Handle(query);
+        var result = await entriesReportQueryService.Handle(query);
 
         var resources = result
             .Select(ProductEntriesReportResourceFromEntityAssembler.ToResourceFromEntity);
@@ -78,7 +78,7 @@ public class EntriesReportController(
     {
         var query = new GetAllProductsEntriesReportQuery(from, to);
 
-        var result = await stockEntryProductReportQueryService.Handle(query);
+        var result = await entriesReportQueryService.Handle(query);
 
         var resources = result
             .Select(ProductEntriesReportResourceFromEntityAssembler.ToResourceFromEntity);
@@ -99,7 +99,7 @@ public class EntriesReportController(
     {
         var query = new GetAffectedProductsEntriesReportQuery(from, to);
 
-        var report = await stockEntryProductReportQueryService.Handle(query);
+        var report = await entriesReportQueryService.Handle(query);
 
         var resources = report.Select(
             ProductEntriesReportResourceFromEntityAssembler.ToResourceFromEntity
