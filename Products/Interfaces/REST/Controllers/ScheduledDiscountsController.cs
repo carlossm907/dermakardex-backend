@@ -58,7 +58,7 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpGet("product/{productId:int}")]
+    [HttpGet("{productId:int}")]
     [SwaggerOperation(
         Summary = "Get scheduled discounts by product",
         Description = "Returns all scheduled discounts for a specific product",
