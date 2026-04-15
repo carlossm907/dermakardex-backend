@@ -13,9 +13,12 @@ namespace Products.Interfaces.REST.Controllers;
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Laboratories Endpoints.")]
-public class Laboratories(ILaboratoryCommandService laboratoryCommandService, ILaboratoryQueryService laboratoryQueryService) : ControllerBase
+public class LaboratoriesController(ILaboratoryCommandService laboratoryCommandService, ILaboratoryQueryService laboratoryQueryService) : ControllerBase
 {
     [HttpGet]
+    [SwaggerOperation("Get All Laboratories", "Get all laboratories.", OperationId = "GetAllLaboratories")]
+    [SwaggerResponse(200, "The laboratories were found and returned.", typeof(IEnumerable<LaboratoryResource>))]
+    [SwaggerResponse(404, "The laboratories were not found.")]
     public async Task<IActionResult> GetAllLaboratories()
     {
         var getAllLaboratoriesQuery = new GetAllLaboratoriesQuery();
@@ -23,16 +26,18 @@ public class Laboratories(ILaboratoryCommandService laboratoryCommandService, IL
         var labsResources = labs.Select(LaboratoryResourceFromEntityAssembler.ToResourceFromEntity);
 
         return Ok(labsResources);
-
     }
 
     [HttpGet("{laboratoryId:int}")]
+    [SwaggerOperation("Get Laboratory by Id", "Get a laboratory by its unique identifier.", OperationId = "GetLaboratoryById")]
+    [SwaggerResponse(200, "The laboratory was found and returned.", typeof(LaboratoryResource))]
+    [SwaggerResponse(404, "The laboratory was not found.")]
     public async Task<IActionResult> GetLaboratoryById(int laboratoryId)
     {
         var getLaboratoryIdQuery = new GetLaboratoryByIdQuery(laboratoryId);
         var laboratory = await laboratoryQueryService.Handle(getLaboratoryIdQuery);
 
-        if (laboratory is null) return BadRequest();
+        if (laboratory is null) return NotFound();
 
         var laboratoryResource = LaboratoryResourceFromEntityAssembler.ToResourceFromEntity(laboratory);
 
@@ -40,6 +45,9 @@ public class Laboratories(ILaboratoryCommandService laboratoryCommandService, IL
     }
 
     [HttpPost]
+    [SwaggerOperation("Create Laboratory", "Create a new laboratory.", OperationId = "CreateLaboratory")]
+    [SwaggerResponse(201, "The laboratory was created.", typeof(LaboratoryResource))]
+    [SwaggerResponse(400, "The laboratory was not created.")]
     public async Task<IActionResult> CreateLaboratory(CreateLaboratoryResource resource)
     {
         var createLaboratoryCommand = CreateLaboratoryCommandFromResourceAssembler.ToCommandFromResource(resource);
@@ -53,6 +61,9 @@ public class Laboratories(ILaboratoryCommandService laboratoryCommandService, IL
     }
 
     [HttpPut("{laboratoryId:int}")]
+    [SwaggerOperation("Update Laboratory", "Update an existing laboratory.", OperationId = "UpdateLaboratory")]
+    [SwaggerResponse(200, "The laboratory was updated.", typeof(LaboratoryResource))]
+    [SwaggerResponse(404, "The laboratory was not found.")]
     public async Task<IActionResult> UpdateLaboratory(int laboratoryId, [FromBody] UpdateLaboratoryResource resource)
     {
         var command = UpdateLaboratoryCommandFromResourceAssembler.ToCommandFromResource(laboratoryId, resource);
@@ -63,15 +74,16 @@ public class Laboratories(ILaboratoryCommandService laboratoryCommandService, IL
         var laboratoryResource = LaboratoryResourceFromEntityAssembler.ToResourceFromEntity(laboratory);
 
         return Ok(laboratoryResource);
-
     }
 
     [HttpDelete("{laboratoryId:int}")]
+    [SwaggerOperation("Delete Laboratory", "Delete an existing laboratory.", OperationId = "DeleteLaboratory")]
+    [SwaggerResponse(200, "The laboratory was deleted.")]
+    [SwaggerResponse(404, "The laboratory was not found.")]
     public async Task<IActionResult> DeleteLaboratory(int laboratoryId)
     {
         var result = await laboratoryCommandService.Handle(new DeleteLaboratoryCommand(laboratoryId));
 
         return result ? NoContent() : NotFound();
     }
-
 }
