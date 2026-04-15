@@ -6,12 +6,12 @@ using Sales.Interfaces.ACL;
 
 namespace Products.Application.Internal.QueryServices;
 
-public class SalesProductReportQueryService(
+public class SalesReportQueryService(
 
     IProductRepository productRepository,
     ISalesContextFacade salesContextFacade
 
-) : ISalesProductReportQueryService
+) : ISalesReportQueryService
 {
     public async Task<IEnumerable<ProductSalesReportItem>> Handle(GetProductSalesReportQuery query)
     {
