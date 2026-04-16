@@ -8,12 +8,12 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Products.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/products")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Discounts Endpoints.")]
 public class DiscountsController(IDiscountsCommandService discountsCommandService) : ControllerBase
 {
-    [HttpPost("{productId:int}")]
+    [HttpPost("{productId:int}/discount")]
     [SwaggerOperation(
         Summary = "Apply discount to product",
         Description = "Apply a discount (amount or percentage) to a product.",
@@ -34,7 +34,7 @@ public class DiscountsController(IDiscountsCommandService discountsCommandServic
         return NoContent();
     }
 
-    [HttpDelete("{productId:int}")]
+    [HttpDelete("{productId:int}/discount")]
     [SwaggerOperation(
         Summary = "Remove product discount",
         Description = "Remove the current discount from a product.",
@@ -51,7 +51,7 @@ public class DiscountsController(IDiscountsCommandService discountsCommandServic
         return NoContent();
     }
 
-    [HttpDelete("all")]
+    [HttpDelete("discounts/all")]
     [SwaggerOperation(
         Summary = "Remove discount from all products",
         Description = "Remove the current discount from all products.",
