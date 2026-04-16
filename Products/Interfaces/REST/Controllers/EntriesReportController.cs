@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Products.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/products")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Product Entries Report Endpoints")]
 public class EntriesReportController(
@@ -19,7 +19,7 @@ public class EntriesReportController(
 ) : ControllerBase
 {
 
-    [HttpGet("{productId:int}")]
+    [HttpGet("{productId:int}/entries-report")]
     [SwaggerOperation(
         Summary = "Get entries report for a single product",
         Description = "Returns total entries for a product in a date range",
@@ -42,7 +42,7 @@ public class EntriesReportController(
         return Ok(resources);
     }
 
-    [HttpGet("bulk")]
+    [HttpGet("entries-report/bulk")]
     [SwaggerOperation(
         Summary = "Get entries report for multiple products",
         Description = "Returns total entries for multiple products in a date range",
@@ -65,7 +65,7 @@ public class EntriesReportController(
         return Ok(resources);
     }
 
-    [HttpGet("all")]
+    [HttpGet("entries-report")]
     [SwaggerOperation(
         Summary = "Get entries report for all products",
         Description = "Returns total entries for all products in a date range",
@@ -86,7 +86,7 @@ public class EntriesReportController(
         return Ok(resources);
     }
 
-    [HttpGet("affected")]
+    [HttpGet("entries-report/affected")]
     [SwaggerOperation(
         Summary = "Get Affected Products Entries Report",
         Description = "Returns the entries report only for products with entries in the selected period.",
