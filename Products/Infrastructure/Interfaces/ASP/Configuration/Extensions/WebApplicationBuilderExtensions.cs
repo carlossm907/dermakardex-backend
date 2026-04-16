@@ -21,8 +21,8 @@ public static class WebApplicationBuilderExtensions
         services.AddScoped<ISupplierQueryService, SupplierQueryService>();
         services.AddScoped<IStockEntryQueryService, StockEntryQueryService>();
         services.AddScoped<IScheduledDiscountQueryService, ScheduledDiscountQueryService>();
-        services.AddScoped<ISalesProductReportQueryService, SalesProductReportQueryService>();
-        services.AddScoped<IStockEntryProductReportQueryService, StockEntryProductReportQueryService>();
+        services.AddScoped<ISalesReportQueryService, SalesReportQueryService>();
+        services.AddScoped<IEntriesReportQueryService, EntriesReportQueryService>();
         services.AddScoped<IStockReportQueryService, StockReportQueryService>();
 
         // Command Services
