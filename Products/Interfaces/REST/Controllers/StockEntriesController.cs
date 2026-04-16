@@ -11,7 +11,7 @@ namespace Products.Interfaces.REST.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/products")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Stock Entry Endpoints.")]
 public class StockEntriesController(
@@ -19,7 +19,7 @@ public class StockEntriesController(
     IStockEntryQueryService stockEntryQueryService
 ) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("entries/all")]
     [SwaggerOperation("Get All Stock Entries", "Get all stock entries in the system.", OperationId = "GetAllStockEntries")]
     [SwaggerResponse(200, "The stock entries were found and returned.", typeof(IEnumerable<StockEntryResource>))]
     [SwaggerResponse(404, "No stock entries were found.")]
@@ -36,7 +36,7 @@ public class StockEntriesController(
 
     }
 
-    [HttpGet("{productId:int}")]
+    [HttpGet("{productId:int}/entries")]
     [SwaggerOperation("Get Stock Entries by Product", "Get all stock entries for a specific product.", OperationId = "GetProductStockEntries")]
     [SwaggerResponse(200, "The stock entries were found and returned.", typeof(IEnumerable<StockEntryResource>))]
     [SwaggerResponse(404, "No stock entries were found for the product.")]
@@ -51,7 +51,7 @@ public class StockEntriesController(
         return Ok(resources);
     }
 
-    [HttpPost]
+    [HttpPost("{productId:int}/entries")]
     [SwaggerOperation("Register Stock Entry", "Register a new stock entry for a product.", OperationId = "RegisterStockEntry")]
     [SwaggerResponse(204, "The stock entry was registered successfully.")]
     [SwaggerResponse(400, "The stock entry was not registered.")]
