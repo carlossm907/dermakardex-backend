@@ -5,10 +5,10 @@ namespace Products.Interfaces.REST.Transform;
 
 public static class ScheduleDiscountCommandFromResourceAssembler
 {
-    public static ScheduleDiscountToProductCommand ToCommandFromResource(ScheduleDiscountResource resource)
+    public static ScheduleDiscountToProductCommand ToCommandFromResource(int productId, ScheduleDiscountResource resource)
     {
         return new ScheduleDiscountToProductCommand(
-            resource.ProductId,
+            productId,
             resource.Name,
             resource.Type,
             resource.Value,
