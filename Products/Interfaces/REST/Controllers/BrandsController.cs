@@ -78,7 +78,7 @@ public class BrandsController(IBrandCommandService brandCommandService, IBrandQu
 
     [HttpDelete("{brandId:int}")]
     [SwaggerOperation("Delete Brand", "Delete an existing brand.", OperationId = "DeleteBrand")]
-    [SwaggerResponse(200, "The brand was deleted.")]
+    [SwaggerResponse(204, "The brand was deleted.")]
     [SwaggerResponse(404, "The brand was not found.")]
     public async Task<IActionResult> DeleteBrand(int brandId)
     {

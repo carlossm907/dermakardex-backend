@@ -76,7 +76,7 @@ public class CategoriesController(ICategoryCommandService categoryCommandService
 
     [HttpDelete("{categoryId:int}")]
     [SwaggerOperation("Delete Category", "Delete an existing category.", OperationId = "DeleteCategory")]
-    [SwaggerResponse(200, "The category was deleted.")]
+    [SwaggerResponse(204, "The category was deleted.")]
     [SwaggerResponse(404, "The category was not found.")]
     public async Task<IActionResult> DeleteCategory(int categoryId)
     {

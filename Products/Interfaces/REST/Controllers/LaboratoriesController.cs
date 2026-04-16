@@ -78,7 +78,7 @@ public class LaboratoriesController(ILaboratoryCommandService laboratoryCommandS
 
     [HttpDelete("{laboratoryId:int}")]
     [SwaggerOperation("Delete Laboratory", "Delete an existing laboratory.", OperationId = "DeleteLaboratory")]
-    [SwaggerResponse(200, "The laboratory was deleted.")]
+    [SwaggerResponse(204, "The laboratory was deleted.")]
     [SwaggerResponse(404, "The laboratory was not found.")]
     public async Task<IActionResult> DeleteLaboratory(int laboratoryId)
     {

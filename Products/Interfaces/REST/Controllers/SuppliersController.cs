@@ -78,7 +78,7 @@ public class SuppliersController(ISupplierCommandService supplierCommandService,
 
     [HttpDelete("{supplierId:int}")]
     [SwaggerOperation("Delete Supplier", "Delete an existing supplier.", OperationId = "DeleteSupplier")]
-    [SwaggerResponse(200, "The supplier was deleted.")]
+    [SwaggerResponse(204, "The supplier was deleted.")]
     [SwaggerResponse(404, "The supplier was not found.")]
     public async Task<IActionResult> DeleteSupplier(int supplierId)
     {
