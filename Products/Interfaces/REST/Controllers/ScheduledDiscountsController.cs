@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Products.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/products")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Scheduled Discounts Endpoints.")]
 
@@ -20,14 +20,13 @@ public class ScheduledDiscountsController(
     IScheduledDiscountQueryService scheduledDiscountQueryService
 ) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("scheduled-discounts")]
     [SwaggerOperation(
         Summary = "Get all scheduled discounts",
         Description = "Returns all scheduled product discounts",
         OperationId = "GetAllScheduledDiscounts"
     )]
     [SwaggerResponse(200, "The scheduled discounts were found and returned.", typeof(IEnumerable<ProductDiscountResource>))]
-    [SwaggerResponse(404, "No scheduled discounts were found.")]
     public async Task<IActionResult> GetAllScheduledDiscounts()
     {
         var query = new GetAllScheduledDiscountsQuery();
@@ -39,14 +38,13 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpGet("active")]
+    [HttpGet("scheduled-discounts/active")]
     [SwaggerOperation(
         Summary = "Get active scheduled discounts",
         Description = "Returns currently active product discounts",
         OperationId = "GetActiveScheduledDiscounts"
     )]
     [SwaggerResponse(200, "The active scheduled discounts were found and returned.", typeof(IEnumerable<ProductDiscountResource>))]
-    [SwaggerResponse(404, "No active scheduled discounts were found.")]
     public async Task<IActionResult> GetActiveScheduledDiscounts()
     {
         var query = new GetActiveScheduledDiscountsQuery();
@@ -58,7 +56,7 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpGet("{productId:int}")]
+    [HttpGet("{productId:int}/scheduled-discounts")]
     [SwaggerOperation(
         Summary = "Get scheduled discounts by product",
         Description = "Returns all scheduled discounts for a specific product",
@@ -77,14 +75,13 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpGet("products")]
+    [HttpGet("scheduled-discounts/products")]
     [SwaggerOperation(
         Summary = "Get products with scheduled discounts",
         Description = "Returns products that have scheduled discounts",
         OperationId = "GetProductsWithScheduledDiscounts"
     )]
     [SwaggerResponse(200, "The products with scheduled discounts were found and returned.", typeof(IEnumerable<ProductResource>))]
-    [SwaggerResponse(404, "No products with scheduled discounts were found.")]
     public async Task<IActionResult> GetProductsWithScheduledDiscounts()
     {
         var query = new GetProductsWithScheduledDiscountsQuery();
@@ -96,14 +93,13 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpGet("expired")]
+    [HttpGet("scheduled-discounts/expired")]
     [SwaggerOperation(
         Summary = "Get expired scheduled discounts",
         Description = "Returns expired scheduled product discounts",
         OperationId = "GetExpiredScheduledDiscounts"
     )]
     [SwaggerResponse(200, "The expired scheduled discounts were found and returned.", typeof(IEnumerable<ProductDiscountResource>))]
-    [SwaggerResponse(404, "No expired scheduled discounts were found.")]
     public async Task<IActionResult> GetExpiredScheduledDiscounts()
     {
         var query = new GetExpiredScheduledDiscountsQuery();
@@ -115,7 +111,7 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpPost]
+    [HttpPost("{productId:int}/scheduled-discounts")]
     [SwaggerOperation(
         Summary = "Schedule discount to product",
         Description = "Creates a scheduled discount for a product",
@@ -123,9 +119,9 @@ public class ScheduledDiscountsController(
     )]
     [SwaggerResponse(201, "The scheduled discount was created.", typeof(ProductDiscountResource))]
     [SwaggerResponse(400, "The scheduled discount was not created.")]
-    public async Task<IActionResult> CreateScheduleDiscount([FromBody] ScheduleDiscountResource resource)
+    public async Task<IActionResult> CreateScheduleDiscount(int productId, [FromBody] ScheduleDiscountResource resource)
     {
-        var command = ScheduleDiscountCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var command = ScheduleDiscountCommandFromResourceAssembler.ToCommandFromResource(productId, resource);
 
         var discount = await scheduledDiscountCommandService.Handle(command);
 
@@ -134,7 +130,7 @@ public class ScheduledDiscountsController(
         return CreatedAtAction(nameof(GetAllScheduledDiscounts), response);
     }
 
-    [HttpPost("bulk")]
+    [HttpPost("scheduled-discounts/bulk")]
     [SwaggerOperation(
         Summary = "Schedule discount to multiple products",
         Description = "Creates a scheduled discount for multiple products",
@@ -151,7 +147,7 @@ public class ScheduledDiscountsController(
         return Ok();
     }
 
-    [HttpPost("all")]
+    [HttpPost("scheduled-discounts/all")]
     [SwaggerOperation(
         Summary = "Schedule discount to all products",
         Description = "Creates a scheduled discount for all products",
@@ -168,7 +164,7 @@ public class ScheduledDiscountsController(
         return Ok();
     }
 
-    [HttpPost("cleanup-expired")]
+    [HttpPost("scheduled-discounts/cleanup-expired")]
     [SwaggerOperation(
         Summary = "Cleanup expired scheduled discounts",
         Description = "Disables expired scheduled discounts",
@@ -184,7 +180,7 @@ public class ScheduledDiscountsController(
         return NoContent();
     }
 
-    [HttpPut("{discountId:int}")]
+    [HttpPut("scheduled-discounts/{discountId:int}")]
     [SwaggerOperation(
         Summary = "Update scheduled discount",
         Description = "Updates a scheduled discount",
@@ -201,7 +197,7 @@ public class ScheduledDiscountsController(
         return NoContent();
     }
 
-    [HttpDelete("{discountId:int}")]
+    [HttpDelete("scheduled-discounts/{discountId:int}")]
     [SwaggerOperation(
         Summary = "Delete scheduled discount",
         Description = "Deletes a scheduled discount",
@@ -218,7 +214,7 @@ public class ScheduledDiscountsController(
         return NoContent();
     }
 
-    [HttpPatch("{discountId:int}/disable")]
+    [HttpPatch("scheduled-discounts/{discountId:int}/disable")]
     [SwaggerOperation(
         Summary = "Disable scheduled discount",
         Description = "Disables a scheduled discount",
