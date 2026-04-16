@@ -7,14 +7,14 @@ using Products.Interfaces.REST.Transform;
 using Swashbuckle.AspNetCore.Annotations;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/products")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Sales Report Endpoints")]
 public class SalesReportController(
     ISalesReportQueryService salesReportQueryService) : ControllerBase
 {
 
-    [HttpGet("{productId:int}")]
+    [HttpGet("{productId:int}/sales-report")]
     [SwaggerOperation(
         Summary = "Get sales report for a single product",
         Description = "Returns total sales for a product in a date range",
@@ -38,7 +38,7 @@ public class SalesReportController(
         return Ok(resources);
     }
 
-    [HttpGet("bulk")]
+    [HttpGet("sales-report/bulk")]
     [SwaggerOperation(
         Summary = "Get sales report for multiple products",
         Description = "Returns total sales for multiple products in a date range",
@@ -54,6 +54,9 @@ public class SalesReportController(
     {
         var query = new GetProductsSalesReportQuery(productIds, from, to);
 
+        if (!productIds.Any())
+            return BadRequest("productIds is required.");
+
         var result = await salesReportQueryService.Handle(query);
 
         var resources = result
@@ -62,7 +65,7 @@ public class SalesReportController(
         return Ok(resources);
     }
 
-    [HttpGet("all")]
+    [HttpGet("sales-report")]
     [SwaggerOperation(
         Summary = "Get sales report for all products",
         Description = "Returns total sales for all products in a date range",
@@ -84,7 +87,7 @@ public class SalesReportController(
         return Ok(resources);
     }
 
-    [HttpGet("affected")]
+    [HttpGet("sales-report/affected")]
     [SwaggerOperation(
         Summary = "Get Affected Products Sales Report",
         Description = "Returns the sales report only for products with sales in the selected period.",
