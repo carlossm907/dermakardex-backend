@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Products.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/products")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Products Endpoints.")]
 public class StockReportController(
@@ -18,7 +18,7 @@ public class StockReportController(
 
 ) : ControllerBase
 {
-    [HttpGet("{productId:int}")]
+    [HttpGet("{productId:int}/stock-report")]
     [SwaggerOperation(
     "Get Product Daily Stock Report",
     "Returns the daily stock report for a product between two dates.",
@@ -41,7 +41,7 @@ public class StockReportController(
         return Ok(resources);
     }
 
-    [HttpGet("all")]
+    [HttpGet("stock-report")]
     [SwaggerOperation(
     "Get All Products Daily Stock Report",
     "Returns the daily stock report for all products between two dates.",
@@ -62,7 +62,7 @@ public class StockReportController(
         return Ok(resources);
     }
 
-    [HttpGet("affected")]
+    [HttpGet("stock-report/affected")]
     [SwaggerOperation(
     "Get Affected Products Daily Stock Report",
     "Returns the daily stock report only for products with stock changes (entries or sales) between two dates.",
@@ -83,7 +83,7 @@ public class StockReportController(
         return Ok(resources);
     }
 
-    [HttpGet("products")]
+    [HttpGet("stock-report/bulk")]
     [SwaggerOperation(
     "Get Selected Products Daily Stock Report",
     "Returns the daily stock report for selected products between two dates.",
