@@ -111,7 +111,7 @@ public class ScheduledDiscountsController(
         return Ok(resources);
     }
 
-    [HttpPost("{productId:int}/scheduled-discounts")]
+    [HttpPost("scheduled-discounts")]
     [SwaggerOperation(
         Summary = "Schedule discount to product",
         Description = "Creates a scheduled discount for a product",
@@ -119,9 +119,9 @@ public class ScheduledDiscountsController(
     )]
     [SwaggerResponse(201, "The scheduled discount was created.", typeof(ProductDiscountResource))]
     [SwaggerResponse(400, "The scheduled discount was not created.")]
-    public async Task<IActionResult> CreateScheduleDiscount(int productId, [FromBody] ScheduleDiscountResource resource)
+    public async Task<IActionResult> CreateScheduleDiscount([FromBody] ScheduleDiscountResource resource)
     {
-        var command = ScheduleDiscountCommandFromResourceAssembler.ToCommandFromResource(productId, resource);
+        var command = ScheduleDiscountCommandFromResourceAssembler.ToCommandFromResource(resource);
 
         var discount = await scheduledDiscountCommandService.Handle(command);
 
