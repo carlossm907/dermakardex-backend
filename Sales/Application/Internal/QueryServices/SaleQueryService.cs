@@ -14,24 +14,9 @@ public class SaleQueryService(ISaleRepository saleRepository) : ISaleQueryServic
         return await saleRepository.FindAllOrderedAsync();
     }
 
-    public async Task<IEnumerable<Sale>> Handle(GetSalesByCustomerDniQuery query)
-    {
-        return await saleRepository.FindByCustomerDniAsync(query.CustomerDni);
-    }
-
     public async Task<IEnumerable<Sale>> Handle(GetSalesByProductIdQuery query)
     {
         return await saleRepository.FindByProductIdAsync(query.ProductId);
-    }
-
-    public async Task<IEnumerable<Sale>> Handle(GetSalesByDayQuery query)
-    {
-        return await saleRepository.FindByDayAsync(query.Day);
-    }
-
-    public async Task<IEnumerable<Sale>> Handle(GetSalesByMonthQuery query)
-    {
-        return await saleRepository.FindByMonthAsync(query.Year, query.Month);
     }
 
     public async Task<Sale?> Handle(GetSaleByIdQuery query)
