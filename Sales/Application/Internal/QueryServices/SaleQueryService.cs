@@ -1,7 +1,5 @@
 using Sales.Domain.Model.Aggregates;
 using Sales.Domain.Model.Queries;
-using Sales.Domain.Model.ReadModels;
-using Sales.Domain.Model.ReadModels.SalesTimeLine;
 using Sales.Domain.Repositories;
 using Sales.Domain.Services;
 
@@ -22,24 +20,6 @@ public class SaleQueryService(ISaleRepository saleRepository) : ISaleQueryServic
     public async Task<Sale?> Handle(GetSaleByIdQuery query)
     {
         return await saleRepository.FindByIdWithDetailsAsync(query.SaleId);
-    }
-
-    public async Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductSalesByProductBetweenDatesQuery query)
-    {
-        return await saleRepository.FindProductSalesPerDayAsync(
-        query.ProductId,
-        query.From,
-        query.To
-    );
-
-    }
-
-    public async Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductsSalesBetweenDatesQuery query)
-    {
-        return await saleRepository.FindProductsSalesPerDayAsync(
-        query.From,
-        query.To
-    );
     }
 
 }
