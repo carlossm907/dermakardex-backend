@@ -6,7 +6,7 @@ using Sales.Interfaces.ACL;
 namespace Sales.Application.ACL;
 
 public class SalesContextFacade(
-    ISaleQueryService saleQueryService
+    ISaleForStockReportQueryService saleForStockReportQueryService
 ) : ISalesContextFacade
 {
     public async Task<IEnumerable<ProductSalesPerDay>> FetchProductSalesPerDay(int productId, DateOnly from, DateOnly to)
@@ -17,7 +17,7 @@ public class SalesContextFacade(
             to
         );
 
-        var result = await saleQueryService.Handle(query);
+        var result = await saleForStockReportQueryService.Handle(query);
 
         return result;
     }
@@ -29,7 +29,7 @@ public class SalesContextFacade(
             to
         );
 
-        var result = await saleQueryService.Handle(query);
+        var result = await saleForStockReportQueryService.Handle(query);
 
         return result;
     }
