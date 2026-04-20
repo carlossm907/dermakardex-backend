@@ -1,7 +1,5 @@
 using Sales.Domain.Model.Aggregates;
 using Sales.Domain.Model.Queries;
-using Sales.Domain.Model.ReadModels;
-using Sales.Domain.Model.ReadModels.SalesTimeLine;
 
 namespace Sales.Domain.Services;
 
@@ -10,6 +8,4 @@ public interface ISaleQueryService
     Task<IEnumerable<Sale>> Handle(GetAllSalesQuery query);
     Task<IEnumerable<Sale>> Handle(GetSalesByProductIdQuery query);
     Task<Sale?> Handle(GetSaleByIdQuery query);
-    Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductSalesByProductBetweenDatesQuery query);
-    Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductsSalesBetweenDatesQuery query);
 }
