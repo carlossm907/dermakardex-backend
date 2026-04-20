@@ -5,11 +5,11 @@ using Sales.Domain.Services;
 
 namespace Sales.Application.Internal.QueryServices;
 
-public class SaleForStockReportQuery(
+public class SaleForStockReportQueryService(
 
     ISaleRepository saleRepository
 
-) : ISaleForStockReportQuery
+) : ISaleForStockReportQueryService
 {
     public async Task<IEnumerable<ProductSalesPerDay>> Handle(GetProductSalesByProductBetweenDatesQuery query)
     {
