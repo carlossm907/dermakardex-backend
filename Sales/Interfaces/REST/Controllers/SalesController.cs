@@ -1,19 +1,22 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using Sales.Application.Internal.OutboundServices;
 using Sales.Domain.Model.Queries;
 using Sales.Domain.Services;
 using Sales.Interfaces.REST.Resources;
-using Sales.Interfaces.REST.Resources.SalesTimeLine;
 using Sales.Interfaces.REST.Transform;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Sales.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
-public class SalesController(ISaleCommandService saleCommandService, ISaleQueryService saleQueryService, IDniLookupService dniLookupService) : ControllerBase
+[Route("api/v1/sales")]
+[Produces(MediaTypeNames.Application.Json)]
+[SwaggerTag("Sales Endpoints.")]
+public class SalesController(ISaleCommandService saleCommandService, ISaleQueryService saleQueryService) : ControllerBase
 {
     [HttpGet]
+    [SwaggerOperation("Get All Sales", "Get all sales.", OperationId = "GetAllSales")]
+    [SwaggerResponse(200, "The sales were found and returned.", typeof(IEnumerable<SaleResource>))]
     public async Task<IActionResult> GetAllSales()
     {
         var getAllSalesQuery = new GetAllSalesQuery();
@@ -25,6 +28,9 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
     }
 
     [HttpGet("{saleId:int}")]
+    [SwaggerOperation("Get Sale by Id", "Get a sale by its unique identifier.", OperationId = "GetSaleById")]
+    [SwaggerResponse(200, "The sale was found and returned.", typeof(SaleDetailResource))]
+    [SwaggerResponse(404, "The sale was not found.")]
     public async Task<IActionResult> GetSaleById(int saleId)
     {
         var getSaleByIdQuery = new GetSaleByIdQuery(saleId);
@@ -35,28 +41,9 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
         return Ok(saleResource);
     }
 
-    [HttpGet("customer/{dni}")]
-    public async Task<IActionResult> GetSaleByCustomer(string dni)
-    {
-        var getSalesByCustomerDniQuery = new GetSalesByCustomerDniQuery(dni);
-        var sales = await saleQueryService.Handle(getSalesByCustomerDniQuery);
-
-        var resources = sales.Select(SaleResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
-
-    [HttpGet("seller/{userId:int}")]
-    public async Task<IActionResult> GetSalesBySeller(int userId)
-    {
-        var getSalesBySellerUserIdQuery = new GetSalesBySellerUserIdQuery(userId);
-        var sales = await saleQueryService.Handle(getSalesBySellerUserIdQuery);
-
-        var salesResource = sales.Select(SaleResourceFromEntityAssembler.ToResourceFromEntity);
-
-        return Ok(salesResource);
-    }
-
-    [HttpGet("product/{productId:int}")]
+    [HttpGet("by-product/{productId:int}")]
+    [SwaggerOperation("Get Sales by Product", "Get all sales for a specific product.", OperationId = "GetSalesByProduct")]
+    [SwaggerResponse(200, "The sales were found and returned.", typeof(IEnumerable<SaleResource>))]
     public async Task<IActionResult> GetSalesByProduct(int productId)
     {
         var query = new GetSalesByProductIdQuery(productId);
@@ -66,111 +53,17 @@ public class SalesController(ISaleCommandService saleCommandService, ISaleQueryS
         return Ok(resources);
     }
 
-    [HttpGet("day/{date}")]
-    public async Task<IActionResult> GetSalesByDay(DateOnly date)
-    {
-        var query = new GetSalesByDayQuery(date);
-        var sales = await saleQueryService.Handle(query);
-
-        var resources = sales.Select(SaleResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
-
-    [HttpGet("month/{year:int}/{month:int}")]
-    public async Task<IActionResult> GetSalesByMonth(int year, int month)
-    {
-        var query = new GetSalesByMonthQuery(year, month);
-        var sales = await saleQueryService.Handle(query);
-
-        var resources = sales.Select(SaleResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
-
-    [HttpGet("report/day/{date}")]
-    [SwaggerOperation(
-    Summary = "Get Sales Report By Day",
-    Description = "Returns all sales grouped by customer for a specific day.",
-    OperationId = "GetSalesReportByDay")]
-    [SwaggerResponse(200, "Sales report retrieved successfully.",
-    typeof(IEnumerable<SalesGroupedByCustomerReportResource>))]
-    public async Task<IActionResult> GetSalesReportByDay(DateOnly date)
-    {
-        var query = new GetSalesGroupedByCustomerByDayQuery(date);
-
-        var report = await saleQueryService.Handle(query);
-
-        var resources = report
-            .Select(SalesGroupedByCustomerReportResourceFromModelAssembler.ToResourceFromModel);
-
-        return Ok(resources);
-    }
-
-    [HttpGet("report/month/{year:int}/{month:int}")]
-    [SwaggerOperation(
-    Summary = "Get Sales Report By Month",
-    Description = "Returns all sales grouped by customer for a specific month.",
-    OperationId = "GetSalesReportByMonth")]
-    [SwaggerResponse(200, "Sales report retrieved successfully.",
-    typeof(IEnumerable<SalesGroupedByCustomerReportResource>))]
-    public async Task<IActionResult> GetSalesReportByMonth(int year, int month)
-    {
-        var query = new GetSalesGroupedByCustomerByMonthQuery(year, month);
-
-        var report = await saleQueryService.Handle(query);
-
-        var resources = report
-            .Select(SalesGroupedByCustomerReportResourceFromModelAssembler.ToResourceFromModel);
-
-        return Ok(resources);
-    }
-
-    [HttpGet("report/month/timeline/{year:int}/{month:int}")]
-    [SwaggerOperation(
-    Summary = "Get Sales Timeline By Month",
-    Description = "Returns sales grouped by day with sequential seller blocks.",
-    OperationId = "GetSalesTimelineByMonth")]
-    [SwaggerResponse(200, "Sales timeline retrieved successfully.",
-    typeof(IEnumerable<SalesTimelineByDayResource>))]
-    public async Task<IActionResult> GetSalesTimelineByMonth(int year, int month)
-    {
-        var query = new GetSalesTimelineByMonthQuery(year, month);
-
-        var result = await saleQueryService.Handle(query);
-
-        var resources = result
-            .Select(SalesTimelineResourceFromModelAssembler.ToResourceFromModel);
-
-        return Ok(resources);
-    }
-
-    [HttpGet("dni/{dni}")]
-    [SwaggerOperation(
-        Summary = "Get customer full name by DNI",
-        Description = "Looks up the full name associated with the given 8-digit DNI using ApiPeru.",
-        OperationId = "GetCustomerFullNameByDni")]
-    [SwaggerResponse(200, "DNI found.")]
-    [SwaggerResponse(400, "Invalid DNI format.")]
-    [SwaggerResponse(404, "DNI not found in the registry.")]
-    public async Task<IActionResult> GetCustomerFullNameByDni(string dni)
-    {
-        if (string.IsNullOrWhiteSpace(dni) || dni.Length != 8 || !dni.All(char.IsDigit))
-            return BadRequest(new { error = "El DNI debe tener exactamente 8 dígitos numéricos." });
-
-        var fullName = await dniLookupService.GetFullNameByDniAsync(dni);
-
-        if (fullName is null)
-            return NotFound(new { error = "No se encontró información para el DNI ingresado." });
-
-        var resource = DniLookupResourceFromStringAssembler.ToResourceFromFullName(fullName);
-        return Ok(resource);
-    }
-
     [HttpPost]
+    [SwaggerOperation("Create Sale", "Create a new sale.", OperationId = "CreateSale")]
+    [SwaggerResponse(201, "The sale was created.", typeof(SaleDetailResource))]
+    [SwaggerResponse(400, "The sale was not created.")]
     public async Task<IActionResult> RegisterSale(RegisterSaleResource resource)
     {
         var registerSaleCommand = RegisterSaleCommandFromResourceAssembler.ToCommandFromResource(resource);
         var sale = await saleCommandService.Handle(registerSaleCommand);
         if (sale is null) return BadRequest();
+
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var saleResource = SaleDetailResourceFromEntityAssembler.ToResourceFromEntity(sale);
         return CreatedAtAction(nameof(GetSaleById), new { saleId = sale.Id }, saleResource);
