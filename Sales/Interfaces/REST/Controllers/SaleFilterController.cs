@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Sales.Interfaces.REST.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/sales")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Sales Filter Endpoints.")]
 public class SaleFilterController(
